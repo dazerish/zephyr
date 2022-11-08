@@ -1,4 +1,8 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends CI_Controller
 {
@@ -7,7 +11,7 @@ class Admin extends CI_Controller
         parent::__construct();
 
         $this->load->helper(['form', 'url', 'string']);
-        $this->load->library(['form_validation', 'session', 'pagination',]);
+        $this->load->library(['form_validation', 'session', 'pagination']);
         $this->load->model('Admin_model');
     }
 
@@ -520,7 +524,8 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
-    
+
+    //System Logs
     public function system_logs() {
 
         $data['title'] = 'Calibr8 - System Logs';
@@ -529,6 +534,8 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
+
+    //Generate Reports
     public function generate_reports() {
 
         $data['title'] = 'Calibr8 - Generate Reports';
@@ -536,6 +543,79 @@ class Admin extends CI_Controller
         $this->load->view('admin/admin_generate_reports');
         $this->load->view('include/footer');
     }
+
+    public function export_csv() {
+        //Try to put date validation
+
+        $this->form_validation->set_rules('start_date', 'Start Date', 'required', array(
+            'required' => '%s is required.'
+        ));
+
+        $this->form_validation->set_rules('end_date', 'End Date', 'required', array(
+            'required' => '%s is required.'
+        ));
+
+        if($this->form_validation->run() == FALSE) {
+            $this->generate_reports();
+        } else {
+            $generate_report = $this->input->post('generate-report');
+
+            if(isset($generate_report)) {
+                $s_date = $this->input->post('start_date');
+                $e_date = $this->input->post('end_date');
+                $start_date = date("Y-m-d H:i:s", strtotime($s_date));
+                $end_date = date("Y-m-d H:i:s", strtotime($e_date));
+                // $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
+
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+                
+                foreach(range('A','H') as $coulumID) {
+                    $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+
+                }
+                $sheet->getStyle('A:H')->getAlignment()->setHorizontal('center');
+                
+                $sheet->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
+                $sheet->setCellValue('A2','Transaction ID');
+                $sheet->setCellValue('B2','Transaction Status');
+                $sheet->setCellValue('C2','Borrower');
+                $sheet->setCellValue('D2','Device ID');
+                $sheet->setCellValue('E2','Device Name');
+                $sheet->setCellValue('F2','Request Time');
+                $sheet->setCellValue('G2','Decision Time');
+                $sheet->setCellValue('H2','Return Date');
+
+                $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
+                $x=3; //start from row 2
+                foreach($system_data as $row)
+                {
+                    $sheet->setCellValue('A'.$x, $row['transaction_id']);
+                    $sheet->setCellValue('B'.$x, $row['transaction_status']);
+                    $sheet->setCellValue('C'.$x, $row['borrower']);
+                    $sheet->setCellValue('D'.$x, $row['borrowedDev_id']);
+                    $sheet->setCellValue('E'.$x, $row['borrowedDev_name']);
+                    $sheet->setCellValue('F'.$x, $row['request_time']);
+                    $sheet->setCellValue('G'.$x, $row['decision_time']);
+                    $sheet->setCellValue('H'.$x, $row['return_date']);
+                    $x++;
+                }
+
+                $writer = new Xlsx($spreadsheet);
+                $fileName = 'DEVIN_system-report.xlsx';
+                //$writer->save($fileName);  //this is for save in folder
+
+
+                /* for force download */
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment; filename="'.$fileName.'"');
+                $writer->save('php://output');
+                /* force download end */
+            }
+        }
+        
+    }
+
 
 
 
@@ -585,13 +665,13 @@ class Admin extends CI_Controller
             'min_length' => '%s should have a minimum of 8 characters'
         ));
 
-        $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
-            'required' => '%s is required.',
-        ));
+        // $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
+        //     'required' => '%s is required.',
+        // ));
 
-        $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
-            'required' => 'Please tap your RFID card.',
-        ));
+        // $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
+        //     'required' => 'Please tap your RFID card.',
+        // ));
 
         if ($this->upload->do_upload('employee_image') == FALSE) {
             $this->form_validation->set_rules('employee_image', 'Employee Image', 'required');
@@ -671,13 +751,13 @@ class Admin extends CI_Controller
             'required' => '%s is required.',
         ));
 
-        $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
-            'required' => '%s is required.',
-        ));
+        // $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
+        //     'required' => '%s is required.',
+        // ));
 
-        $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
-            'required' => 'Please tap your RFID card.',
-        ));
+        // $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
+        //     'required' => 'Please tap your RFID card.',
+        // ));
 
         if ($this->upload->do_upload('device_image') == FALSE) {
             $this->form_validation->set_rules('device_image', 'Device Image', 'required');

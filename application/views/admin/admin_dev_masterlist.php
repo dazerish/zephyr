@@ -42,52 +42,55 @@
                 <option value="Removed">Removed</option>
                 </select>
 
-                <a href="<?= site_url('Admin/dev_masterlist_view')?>"><u>Clear All</u></a>
+                <a href="<?= site_url('Admin/dev_masterlist_view')?>" class="clear-btn"><u>Clear All</u></a>
         </div>
 
         <?= form_close();?>
     </div>
         
-
-    <table class="table">
-        <thead>
-            <tr class="user-details">
-                <th scope="col"></th>
-                <th scope="col">Device Name</th>
-                <th scope="col">Device Model</th>
-                <th scope="col">Manufacturer</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>             
-            </tr>
-        </thead>
-
-        <!--placed a placeholder so it can easily be identified and replaced with php function-->
-        <tbody>
-            <?php foreach($devices as $device): ?>
-                <tr class="align-middle">
-                    <td>
-                        <img
-                            <?php if(isset($device->dev_image)): ?>
-                                class="device-pic"
-                                src="<?= base_url('./assets/device_image/') . $device->dev_image; ?>"
-                                alt="device-pic"
-                            <?php endif ?>
-                        >
-                    </td>
-                    <td class="emp-name-bold"><?= $device->dev_name;?></td>
-                    <td><?= $device->dev_model;?></td>
-                    <td><?=$device->manufacturer; ?></td>
-                    <td><?=$device->cur_status; ?></td>
-        
-                    <td>
-                        <a href="<?= site_url('Admin/device_view/') . $device->id; ?>"><i class="fa fa-solid fa-eye"></i></a>
-                        <a href="<?= site_url('Admin/editDev_view/') . $device->id; ?>"><i class="fas fa-edit" id="edit-btn"></i></a>
-                    </td>
+    <div class="table-container">
+        <table class="table-responsive">
+            <thead>
+                <tr>
+                    <th>Device Image</th>
+                    <th>Device Name</th>
+                    <th>Device Model</th>
+                    <th>Manufacturer</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endforeach; ?>  
-
-        </tbody>
-    </table>
-
-    <?= $this->pagination->create_links() ?>
+            </thead>
+            <tbody>
+                <?php foreach($devices as $device): ?>
+                    <tr>
+                        <td data-label="Device Image">
+                            <img
+                                <?php if(isset($device->dev_image)): ?>
+                                    class="device-pic"
+                                    src="<?= base_url('./assets/device_image/') . $device->dev_image; ?>"
+                                    alt="device-pic"
+                                <?php endif ?>
+                            >
+                        </td>
+                        <td class="emp-name-bold" data-label="Device Name"><?= $device->dev_name;?></td>
+                        <td data-label="Device Model"><?= $device->dev_model;?></td>
+                        <td data-label="Manufacturer"><?=$device->manufacturer; ?></td>
+                        <td data-label="Status"><?=$device->cur_status; ?></td>
+            
+                        <td data-label="Actions" class="actions-div">
+                            <a href="<?= site_url('Admin/device_view/') . $device->id; ?>"><i class="fa fa-solid fa-eye"></i></a>
+                            <a href="<?= site_url('Admin/editDev_view/') . $device->id; ?>"><i class="fas fa-edit" id="edit-btn"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="pagination-div">
+        <?= $this->pagination->create_links() ?>
+    </div>
+    
 </div>
+
+

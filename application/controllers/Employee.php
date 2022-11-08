@@ -11,7 +11,7 @@ class Employee extends CI_Controller
         $this->load->model('Employee_model');
     }
 
-    public function index()
+    public function index() //Borrowable Device List
     {
         if (!$this->session->userdata('logged_in')) {
             redirect('Login');
@@ -25,72 +25,8 @@ class Employee extends CI_Controller
             redirect('Executive');
         }
 
-        $data['title'] = 'Calibr8 - My Profile';
-        $data['employee'] = $this->Employee_model->get_emp_row($this->session->userdata('id'));
-        $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_profile_view', $data);
-        $this->load->view('include/footer');
-    }
-
-    public function reset_password()
-    {
-        $reset = $this->input->post('reset-btn');
-
-        $this->form_validation->set_rules('oldPass', 'Current Password', 'required|min_length[8]|callback_validate_password', array(
-            'required' => 'Please provide your %s.',
-            'min_length' => '%s should have a minimum of 8 characters.'
-        ));
-
-        $this->form_validation->set_rules('newPass', 'New Password', 'required|min_length[8]', array(
-            'required' => 'Please provide your %s.',
-            'min_length' => '%s should have a minimum of 8 characters.'
-        ));
-
-        $this->form_validation->set_rules('confNewPass', 'Confirm New Password', 'required|min_length[8]|matches[newPass]', array(
-            'required' => 'Please confirm your New Password.',
-            'min_length' => '%s should have a minimum of 8 characters.',
-            'matches' => '%s does not match your New Password.'
-        ));
-
-        if (isset($reset)) {
-            $newPass = md5($this->input->post('newPass'));
-
-            if ($this->form_validation->run() == FALSE) {
-                $this->index();
-            } else {
-                $id = $this->session->userdata('id');
-                $info = array(
-                    'password' => $newPass
-                );
-
-                $this->Employee_model->update_employee($id, $info);
-
-                $success = "Password is updated successfully";
-                $this->session->set_flashdata('success', $success);
-                $this->index();
-            }
-        }
-    }
-
-    public function validate_password($oldPass)
-    {
-        $id = $this->session->userdata('id');
-        $oldPassword = md5($oldPass);
-        $currPass = $this->Employee_model->get_emp_row($id)->password;
-
-        if ($oldPassword != $currPass) {
-            $this->form_validation->set_message('validate_password', '%s field does not match your current password.');
-            return FALSE;
-        }
-
-        return TRUE;
-    }
-
-    //Borrowable Device List
-    public function devList_view()
-    {
         $page_config = array(
-            'base_url' => site_url('Employee/devList_view'),
+            'base_url' => site_url('Employee/index'),
             'total_rows' => $this->Employee_model->count_devModel(),
             'num_links' => 3,
             'per_page' => 5,
@@ -129,13 +65,14 @@ class Employee extends CI_Controller
         $this->load->view('include/footer');
     }
 
+
     public function search_BorrowableDev()
     { //Temporary Search Function
         $search = ($this->input->post("searchTerm")) ? $this->input->post("searchTerm") : "NIL";
         $search = ($this->uri->segment(3)) ? $this->uri->segment(3) : $search;
 
         $page_config = array(
-            'base_url' => site_url('Employee/searchDev/$search'),
+            'base_url' => site_url('Employee/search_BorrowableDev/$search'),
             'total_rows' => $this->Employee_model->count_devModel($search),
             'num_links' => 3,
             'per_page' => 5,
@@ -215,7 +152,7 @@ class Employee extends CI_Controller
                     'borrowedDev_name' => $dev_name,
                     'request_time' => date("Y-m-d H:i:s", strtotime('now')),
                     'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
-                    'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+2 months'))
+                    'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+1 month'))
                 );
 
                 //Device Status Info
@@ -234,7 +171,7 @@ class Employee extends CI_Controller
         $cancel = $this->input->post('cancel-button');
 
         if (isset($cancel)) {
-            redirect('Employee/devList_view');
+            redirect('Employee');
         }
     }
 
@@ -348,6 +285,71 @@ class Employee extends CI_Controller
         $this->load->view('include/employee_header', $data);
         $this->load->view('employee/employee_device_view', $data);
         $this->load->view('include/footer');
+    }
+
+
+    //Profile View
+    public function profile_view() {
+
+        $data['title'] = 'Calibr8 - My Profile';
+        $data['employee'] = $this->Employee_model->get_emp_row($this->session->userdata('id'));
+        $this->load->view('include/employee_header', $data);
+        $this->load->view('employee/employee_profile_view', $data);
+        $this->load->view('include/footer');
+    }
+
+    public function reset_password()
+    {
+        $reset = $this->input->post('reset-btn');
+
+        $this->form_validation->set_rules('oldPass', 'Current Password', 'required|min_length[8]|callback_validate_password', array(
+            'required' => 'Please provide your %s.',
+            'min_length' => '%s should have a minimum of 8 characters.'
+        ));
+
+        $this->form_validation->set_rules('newPass', 'New Password', 'required|min_length[8]', array(
+            'required' => 'Please provide your %s.',
+            'min_length' => '%s should have a minimum of 8 characters.'
+        ));
+
+        $this->form_validation->set_rules('confNewPass', 'Confirm New Password', 'required|min_length[8]|matches[newPass]', array(
+            'required' => 'Please confirm your New Password.',
+            'min_length' => '%s should have a minimum of 8 characters.',
+            'matches' => '%s does not match your New Password.'
+        ));
+
+        if (isset($reset)) {
+            $newPass = md5($this->input->post('newPass'));
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->index();
+            } else {
+                $id = $this->session->userdata('id');
+                $info = array(
+                    'password' => $newPass
+                );
+
+                $this->Employee_model->update_employee($id, $info);
+
+                $success = "Password is updated successfully";
+                $this->session->set_flashdata('success', $success);
+                $this->index();
+            }
+        }
+    }
+
+    public function validate_password($oldPass)
+    {
+        $id = $this->session->userdata('id');
+        $oldPassword = md5($oldPass);
+        $currPass = $this->Employee_model->get_emp_row($id)->password;
+
+        if ($oldPassword != $currPass) {
+            $this->form_validation->set_message('validate_password', '%s field does not match your current password.');
+            return FALSE;
+        }
+
+        return TRUE;
     }
 }
 

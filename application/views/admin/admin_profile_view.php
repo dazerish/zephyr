@@ -1,34 +1,14 @@
-
-
-
 <div class="user-container">
-<h1 class="page-title"><b>My Profile</b></h1>
     <div class="profile-container">
-        <div class="profile-card">
+        <div class="login_box">
+        <h1 class="page-title"><b>My Profile</b></h1>
             <div class="profile-deets">
                 <img src="<?= base_url('./assets/users_image/' . $admin->emp_image); ?>" alt="profile picture" class="prof-pic">  
                 <h4 class="profile-name"><?= $admin->emp_name; ?></h4>
                 <div class="profile-details">
-                    <div class="detail-table-div">
-                        <table class="detail-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Employee ID</th>
-                                    <th scope="col">Employee</th>
-                                    <th scope="col">Direct Superior</th>
-                                </tr>
-                            </thead>
-            
-                            <tbody>
-                                <tr class="align-middle">
-                                    <td><?= $admin->emp_id; ?></td>
-                                    <td><?= ucfirst($admin->emp_role); ?></td>
-                                    <td><?= $admin->superior; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-        
+                    <p class="profile-p"><b>Employee ID:</b> <?= $admin->emp_id; ?></p>
+                    <p class="profile-p"><b>Employee:</b> <?= ucfirst($admin->emp_role); ?></p>
+                    <p class="profile-p"><b>Direct Superior:</b> <?= $admin->superior; ?></p>
                 </div>
             </div>
 
@@ -39,7 +19,7 @@
             </div>
         </div>
 
-        <div class="resetpw-card">
+        <div class="login_box">
             <div class="profile-deets">
                 <?= form_open('Admin/reset_password');?>
                 <h4 class="resetpw-h4" style="text-align: center; font-weight: 700;">Reset Password</h4>

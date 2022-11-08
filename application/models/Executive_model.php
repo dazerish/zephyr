@@ -13,14 +13,19 @@ class Executive_model extends CI_Model
     public function get_users_table($limit, $start, $st = NULL)
     {
         if ($st == "NIL") $st = "";
-        $sql = "select * from users where emp_name like '%$st%' limit " . $start . ", " . $limit;
+        $sql = "SELECT * FROM users 
+        WHERE emp_name LIKE '%$st%' 
+        ORDER BY id DESC
+        LIMIT " . $start . ", " . $limit;
         $query = $this->db->query($sql);
         return $query->result();
     }
     public function get_users_count($st = NULL)
     {
         if ($st == "NIL") $st = "";
-        $sql = "select * from users where emp_name like '%$st%'";
+        $sql = "SELECT * FROM users 
+        WHERE emp_name LIKE '%$st%'
+        ORDER BY id DESC";
         $query = $this->db->query($sql);
         return $query->num_rows();
     }

@@ -1,4 +1,8 @@
 <div class="view-emp-container">
+    <div class="back-btn">
+        <a href="<?= site_url('Executive/dev_masterlist_view');?>">< BACK</a>
+    </div>
+
     <h1 class="page-title"><b>View Device Details</b></h1>
 
         <div class="detail-container">

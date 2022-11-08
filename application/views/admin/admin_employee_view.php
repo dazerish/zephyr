@@ -1,8 +1,8 @@
 <div class="view-emp-container">
 
-    <form>
-    <input type="button" class="back-btn" value="< BACK" onclick="history.back()">
-    </form>
+    <div class="back-btn">
+        <a href="<?= site_url('Admin/emp_masterlist_view');?>">< BACK</a>
+    </div>
 
     <h1 class="page-title"><b>View Employee Details</b></h1>
 

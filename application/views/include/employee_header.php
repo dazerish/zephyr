@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="<?= site_url('Employee/devList_view') ?>">Reservation</a>
+            <a class="nav-link active" aria-current="page" href="<?= site_url('Employee') ?>">Reservation</a>
             </li>
             
             <li class="nav-item">
@@ -33,7 +33,7 @@
             My Profile
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="prof-nav">
-                <li><a class="dropdown-item" href="<?= site_url('Employee') ?>">View My Profile</a></li>
+                <li><a class="dropdown-item" href="<?= site_url('Employee/profile_view') ?>">View My Profile</a></li>
                 <li><a class="dropdown-item" href="<?= site_url('Login/logout') ?>">Logout</a></li>
             </ul>
         </ul>

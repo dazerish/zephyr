@@ -12,24 +12,26 @@
     <h1 class="page-title"><b>Generate Reports</b></h1>
 
     <div class="report-picker">
+        <?= form_open('Admin/export_csv'); ?>
+            <div class="calendar">
+                <label for="start_date">Start Date</label><br>
+                <input type="date" id="reservation-date" class="date-picker" name="start_date">
+                <span class="text-danger"><?= form_error('start_date') ?></span>
+            </div>
 
-        <div class="calendar">
-            <label for="reservation-date">Start Date</label><br>
-            <input type="date" id="reservation-date" class="date-picker" name="reservation-date">
+            <div class="calendar">
+                <label for="end_date">End Date</label><br>
+                <input type="date" id="reservation-date" class="date-picker" name="end_date">
+                <span class="text-danger"><?= form_error('end_date') ?></span>
+            </div>
+
+            
+
         </div>
 
-        <div class="calendar">
-            <label for="reservation-date">End Date</label><br>
-            <input type="date" id="reservation-date" class="date-picker" name="reservation-date">
+        <div class="generate-btn-div">
+            <button class="generate-btn" name="generate-report">GENERATE REPORT</button>
         </div>
 
-        
-
-    </div>
-
-    <div class="generate-btn-div">
-        <button class="generate-btn">GENERATE REPORT</button>
-    </div>
-
-
+        <?= form_close();?>
 </div>

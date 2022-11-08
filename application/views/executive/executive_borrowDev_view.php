@@ -49,42 +49,60 @@
                 <option value="Removed">Removed</option>
             </select>
 
-            <a href="<?= site_url('Executive/devList_view'); ?>"><u>Clear All</u></a>
+            <a href="<?= site_url('Executive'); ?>"><u>Clear All</u></a>
         </div>
 
         <?= form_close(); ?>
 
-
     </div>
 
-    <section class="main_container">
-        <div class="reservation_container">
-            <?php foreach ($stocks as $stock) : ?>
-                <div class="item-row">
-                    <div class="item-pic">
+    <div class="table-container">
+        <table class="table-responsive" id="">
+            <thead>
+                <tr class="device-details">
+                    <th>Device Image</th>
+                    <th>Device Name</th>
+                    <th>Status</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($stocks as $stock) : ?>
+                    <tr>
+                        <td data-label="Device Image">
                         <img
                             <?php if(isset($stock->dev_image)): ?>
                                 class="device-pic" 
                                 src="<?= base_url('./assets/device_image/') . $stock->dev_image; ?>" 
                                 alt="device-pic"
-                            <?php endif ?>
+                            <?php endif?>
                         >
-                        <div class="item-desc">
-                            <h6><?= $stock->dev_name; ?></h6>
-                            <h6>Status: <?= $stock->cur_status; ?></h6>
-                            <h6>Stock: <?= $stock->stock; ?></h6>
-                        </div>
-                    </div>
+                        </td>
+                        <td data-label="Device Name">
+                            <?= $stock->dev_name; ?>
+                        </td>
 
-                    <div class="item-btn">
-                        <a href="<?= site_url('Executive/reserveDev/') . $stock->dev_name; ?>">
-                            <input type="submit" class="all_btn" id="reserve_btn" value="Borrow Device">
-                        </a>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
+                        <td data-label="Status"> 
+                            <?= $stock->cur_status; ?>
+                        </td>
+
+                        <td data-label="Stock">
+                            <?= $stock->stock; ?>
+                        </td>
+                        <td data-label="Action">
+                            <div class="item-btn">
+                                <a href="<?= site_url('Executive/reserveDev/') . $stock->dev_name; ?>">
+                                    <input type="submit" class="all_btn" id="reserve_btn" value="Borrow Device">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
     <?= $this->pagination->create_links(); ?>
 </div>

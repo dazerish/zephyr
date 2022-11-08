@@ -2,7 +2,6 @@
 <section class="user-container">
     <h1 class="page-title"><b>Borrow This Device</b></h1>
     <div class="borrow_module">
-
         <?php foreach ($stocks as $stock) : ?>
             <div class="device-view">
                 <img
@@ -54,7 +53,6 @@
                 </div>
                 <?= form_close(); ?>
             </div>
-
         </div>
 
     </div>

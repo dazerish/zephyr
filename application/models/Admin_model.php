@@ -209,7 +209,7 @@ class Admin_model extends CI_Model
 
 
 
-    //Reservation - Borrowable Device List
+    //Reservation - Borrowable Device List (REMOVE THIS PLS)
     public function borrowableDev_count()
     {
         $this->db->where(['cur_status' => 'Available', 'allowed_roles' => 'Administrator']);
@@ -261,6 +261,16 @@ class Admin_model extends CI_Model
         $this->db->insert('transaction', $info);
         $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
     }
+
+    //Generate Reports
+    public function fetch_data($start_date, $end_date) {
+
+        $sql = "SELECT * FROM transaction
+        WHERE request_time BETWEEN '$start_date' AND '$end_date'";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
 
 
     //Registration Section (Employee)

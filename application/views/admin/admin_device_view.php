@@ -1,7 +1,7 @@
 <div class="view-emp-container">
-    <form>
-    <input type="button" class="back-btn" value="< BACK" onclick="history.back()">
-    </form>
+    <div class="back-btn">
+        <a href="<?= site_url('Admin/dev_masterlist_view');?>">< BACK</a>
+    </div>
 
     <h1 class="page-title"><b>View Device Details</b></h1>
 

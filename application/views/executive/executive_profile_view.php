@@ -1,33 +1,14 @@
-
-<h1 class="page-title"><b>My Profile</b></h1>
-
-<div class="p-main-container">
+<div class="user-container">
     <div class="profile-container">
-        <div class="profile-card">
+        <div class="login_box">
+            <h1 class="page-title"><b>My Profile</b></h1>
             <div class="profile-deets">
                 <img src="<?= base_url('./assets/users_image/' . $executive->emp_image); ?>" alt="profile picture" class="prof-pic">  
                 <h4 class="profile-name"><?= $executive->emp_name; ?></h4>
                 <div class="profile-details">
-                    <div class="detail-table-div">
-                        <table class="detail-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Employee ID</th>
-                                    <th scope="col">Employee</th>
-                                    <th scope="col">Direct Superior</th>
-                                </tr>
-                            </thead>
-            
-                            <tbody>
-                                <tr class="align-middle">
-                                    <td><?= $executive->emp_id; ?></td>
-                                    <td><?= ucfirst($executive->emp_role); ?></td>
-                                    <td><?= $executive->superior; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-        
+                    <p class="profile-p"><b>Employee ID:</b> <?= $executive->emp_id; ?></p>
+                    <p class="profile-p"><b>Employee:</b> <?= ucfirst($executive->emp_role); ?></p>
+                    <p class="profile-p"><b>Direct Superior:</b> <?= $executive->superior; ?></p>
                 </div>
             </div>
 

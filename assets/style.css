@@ -25,6 +25,16 @@ nav a:hover {
   color: #C63F18 !important;
 }
 
+.navbar-collapse.collapsing {
+  background-color: #F6F6F6;
+  border-radius: 10px;
+}
+
+.navbar-collapse.collapse.show {
+  background-color: #F6F6F6;
+  border-radius: 10px;
+}
+
 /* 
 #navbarNavDropdown{
   background-color: #777777;
@@ -400,20 +410,25 @@ td i {
     justify-content: space-evenly;
   }
 
+  .detail-flex {
+    display: flex;
+    justify-content: space-evenly;
+  }
 
   .detail-container {
     background-color: #ffffff;
     border-radius: 15px;
-    padding: 2rem;
-    margin-top: 10px;
+    padding: 2em;
   }
 
   .d-detail-container {
     background-color: #ffffff;
     border-radius: 15px;
     width: 300px;
+    height: 150px;
     padding: 2rem;
     margin-top: 20px;
+    text-align: center;
   }
 
   .d-detail-container h2 {
@@ -486,7 +501,8 @@ td i {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    /* flex-direction: column; */
+    gap: 100px;
 }
 
 .prof-pic {
@@ -501,6 +517,7 @@ td i {
     border-radius: 15px;
     padding: 20px;
 }
+
 
 .logout-btn-div {
   margin-top: 15px;
@@ -869,6 +886,8 @@ td i {
 .borrow_module {
   text-align: center;
   display: flex;
+  justify-content: center;
+  margin-top: 5em;
 }
 
 .device-view {
@@ -1045,6 +1064,7 @@ td i {
   text-align: center;
   font-weight: 800;
   color: #ffffff;
+  /* margin-top: 20px; */
 }
 
 .btn-reg {
@@ -1068,7 +1088,7 @@ td i {
   display: block;
 }
 
-
+/* 
 @keyframes animate {
   from {
     transform: scale(1, 0);
@@ -1078,7 +1098,182 @@ td i {
     transform: scale(1, 1);
     opacity: 1;
   }
+} */
+
+/*font awesome icons*/
+
+#cross-icon {
+  background-color: #C63F18;
 }
+
+#check-icon {
+  background-color: #40A344;
+  margin-top: 10px;
+}
+
+
+
+/* fixed responsive table */
+
+.table-container {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
+
+.table-responsive {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 1em;
+}
+
+/* .table-responsive thead {
+  background-color: #ffffff;
+} */
+
+.table-responsive thead tr th {
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  opacity: 1;
+  padding: 20px;
+  vertical-align: top;
+  border-bottom: 2px solid #c64e18;
+  background-color: #ffffff;
+  color: black;
+}
+
+.table-responsive tbody tr td {
+  letter-spacing: 0.35px;
+  font-weight: normal;
+  background-color: #ffffff;
+  padding: 20px;
+  border-bottom: 2px solid #F3E0DA;
+}
+
+@media (max-width: 912px) {
+  .page-title {
+    font-size: 28px;
+  }
+
+  .table-responsive thead {
+    display: none;
+  }
+
+  .table-responsive, .table-responsive tbody, .table-responsive tr, .table-responsive td {
+    display: block;
+    width: 100%;
+  } 
+
+  .table-responsive tr {
+    margin-bottom: 15px;
+  }
+
+  .table-responsive tbody tr td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    font-size: 14px;
+  }
+
+  .table-responsive td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .borrow_module, .picker-flex{
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+
+
 
 /*MEDIA QUERIES*/
 
+
+
+@media only screen and (max-width: 768px) {
+    .login_box {
+      width: 350px;
+    }
+
+    input[type=text], input[type=password], input[type=submit], #roles, textarea{
+      width: 250px;
+      text-align: center;
+    }
+
+    .login_header {
+      font-size: 24px;
+      text-align: center;
+    }
+    
+    .reg-div, .profile-deets, .page-title, .resetpw-card, .user-count {
+      text-align: center;
+    }
+
+    .searchFilters {
+      flex-direction: column;
+    }
+
+    .searchFilters select {
+      width: 100%;
+      align-items: center;
+    }
+
+    .filterGroup, .clear-btn {
+      margin-top: 10px;
+    }
+
+    .user-count {
+      text-align: center;
+    }
+
+    .actions-div {
+      display: flex;
+    }
+
+    .report-picker {
+      flex-direction: column;
+    }
+
+    .report-picker .calendar input{
+      width: 350px;
+    }
+
+    #reserve_btn {
+      width: 100px;
+      font-size: 12px;
+    }
+
+    .clear-filter {
+      margin-top: 15px;
+    }
+
+    .device-info {
+      width: 350px;
+    }
+
+    .picker-div input {
+      width: 350px;
+    }
+
+    .btn-grp button {
+      margin-top: 10px;
+    }
+
+    .cancel-btn, .reserve-btn {
+      font-size: 12px;
+    }
+
+}
