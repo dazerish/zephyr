@@ -75,7 +75,7 @@
 
         <div class="btns-group">
           <a href="#" class="btn btn-prev" id="btn-prev">PREVIOUS</a>
-          <input type="submit" class="btn-reg" id="btn-reg" name="reg-dev" value="REGISTER EMPLOYEE">
+          <input type="submit" class="btn-reg" id="btn-reg" name="reg-emp" value="REGISTER EMPLOYEE">
         </div>
 
       </div>
