@@ -166,7 +166,7 @@ class Executive extends CI_Controller
                 $this->Executive_model->set_reserveDate($info, $status_info, $unique_num);
                 $success = "Reserve Date is set successfully. Please wait for approval.";
                 $this->session->set_flashdata('success', $success);
-                redirect('Executive/devList_view');
+                redirect('Executive');
             }
         }
 
@@ -456,4 +456,3 @@ class Executive extends CI_Controller
         return TRUE;
     }
 }
-?>
