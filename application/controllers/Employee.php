@@ -164,7 +164,7 @@ class Employee extends CI_Controller
                 $this->Employee_model->set_reserveDate($info, $status_info, $unique_num);
                 $success = "Reserve Date is set successfully. Please wait for approval.";
                 $this->session->set_flashdata('success', $success);
-                redirect('Employee/devList_view');
+                redirect('Employee');
             }
         }
 
@@ -352,5 +352,3 @@ class Employee extends CI_Controller
         return TRUE;
     }
 }
-
-?>
