@@ -180,7 +180,7 @@
                             'borrowedDev_name' => $dev_name,
                             'request_time' => date("Y-m-d H:i:s", strtotime('now')),
                             'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
-                            'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+2 months'))
+                            'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+1 month'))
                         );
     
                         //Device Status Info
