@@ -154,7 +154,7 @@ class Admin extends CI_Controller
     public function editEmp_details()
     {
         $image_config = array(
-            'upload_path' => './assets/user_image',
+            'upload_path' => './assets/users_image',
             'allowed_types' => 'gif|jpg|png',
             'max_size' => 5000000000,
             'max_width' => 204800,
