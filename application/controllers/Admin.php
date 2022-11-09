@@ -1,6 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 require 'vendor/autoload.php';
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -399,7 +400,7 @@ class Admin extends CI_Controller
 
 
     //Device Approval List
-    public function devApproval_view() 
+    public function devApproval_view()
     {
         $page_config = array(
             'base_url' => site_url('Admin/devApproval_view'),
@@ -441,7 +442,7 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
-    public function reject_device() 
+    public function reject_device()
     {
         $transaction_status = array(
             'transaction_status' => 'Rejected'
@@ -483,7 +484,8 @@ class Admin extends CI_Controller
 
 
     //Transaction Logs
-    public function transaction_logs() {
+    public function transaction_logs()
+    {
 
         $page_config = array(
             'base_url' => site_url('Admin/transaction_logs'),
@@ -526,7 +528,8 @@ class Admin extends CI_Controller
 
 
     //System Logs
-    public function system_logs() {
+    public function system_logs()
+    {
 
         $data['title'] = 'Calibr8 - System Logs';
         $this->load->view('include/admin_header', $data);
@@ -536,7 +539,8 @@ class Admin extends CI_Controller
 
 
     //Generate Reports
-    public function generate_reports() {
+    public function generate_reports()
+    {
 
         $data['title'] = 'Calibr8 - Generate Reports';
         $this->load->view('include/admin_header', $data);
@@ -544,7 +548,8 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
-    public function export_csv() {
+    public function export_csv()
+    {
         //Try to put date validation
 
         $this->form_validation->set_rules('start_date', 'Start Date', 'required', array(
@@ -555,12 +560,12 @@ class Admin extends CI_Controller
             'required' => '%s is required.'
         ));
 
-        if($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             $this->generate_reports();
         } else {
             $generate_report = $this->input->post('generate-report');
 
-            if(isset($generate_report)) {
+            if (isset($generate_report)) {
                 $s_date = $this->input->post('start_date');
                 $e_date = $this->input->post('end_date');
                 $start_date = date("Y-m-d H:i:s", strtotime($s_date));
@@ -569,35 +574,33 @@ class Admin extends CI_Controller
 
                 $spreadsheet = new Spreadsheet();
                 $sheet = $spreadsheet->getActiveSheet();
-                
-                foreach(range('A','H') as $coulumID) {
-                    $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
 
+                foreach (range('A', 'H') as $coulumID) {
+                    $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
                 }
                 $sheet->getStyle('A:H')->getAlignment()->setHorizontal('center');
-                
-                $sheet->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
-                $sheet->setCellValue('A2','Transaction ID');
-                $sheet->setCellValue('B2','Transaction Status');
-                $sheet->setCellValue('C2','Borrower');
-                $sheet->setCellValue('D2','Device ID');
-                $sheet->setCellValue('E2','Device Name');
-                $sheet->setCellValue('F2','Request Time');
-                $sheet->setCellValue('G2','Decision Time');
-                $sheet->setCellValue('H2','Return Date');
+
+                $sheet->setCellValue('A1', 'Report for the date of ' . $s_date . ' to ' . $e_date);
+                $sheet->setCellValue('A2', 'Transaction ID');
+                $sheet->setCellValue('B2', 'Transaction Status');
+                $sheet->setCellValue('C2', 'Borrower');
+                $sheet->setCellValue('D2', 'Device ID');
+                $sheet->setCellValue('E2', 'Device Name');
+                $sheet->setCellValue('F2', 'Request Time');
+                $sheet->setCellValue('G2', 'Decision Time');
+                $sheet->setCellValue('H2', 'Return Date');
 
                 $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
-                $x=3; //start from row 2
-                foreach($system_data as $row)
-                {
-                    $sheet->setCellValue('A'.$x, $row['transaction_id']);
-                    $sheet->setCellValue('B'.$x, $row['transaction_status']);
-                    $sheet->setCellValue('C'.$x, $row['borrower']);
-                    $sheet->setCellValue('D'.$x, $row['borrowedDev_id']);
-                    $sheet->setCellValue('E'.$x, $row['borrowedDev_name']);
-                    $sheet->setCellValue('F'.$x, $row['request_time']);
-                    $sheet->setCellValue('G'.$x, $row['decision_time']);
-                    $sheet->setCellValue('H'.$x, $row['return_date']);
+                $x = 3; //start from row 2
+                foreach ($system_data as $row) {
+                    $sheet->setCellValue('A' . $x, $row['transaction_id']);
+                    $sheet->setCellValue('B' . $x, $row['transaction_status']);
+                    $sheet->setCellValue('C' . $x, $row['borrower']);
+                    $sheet->setCellValue('D' . $x, $row['borrowedDev_id']);
+                    $sheet->setCellValue('E' . $x, $row['borrowedDev_name']);
+                    $sheet->setCellValue('F' . $x, $row['request_time']);
+                    $sheet->setCellValue('G' . $x, $row['decision_time']);
+                    $sheet->setCellValue('H' . $x, $row['return_date']);
                     $x++;
                 }
 
@@ -608,12 +611,11 @@ class Admin extends CI_Controller
 
                 /* for force download */
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                header('Content-Disposition: attachment; filename="'.$fileName.'"');
+                header('Content-Disposition: attachment; filename="' . $fileName . '"');
                 $writer->save('php://output');
                 /* force download end */
             }
         }
-        
     }
 
 
@@ -694,7 +696,7 @@ class Admin extends CI_Controller
                     'emp_role' => $this->input->post('roles'),
                     'password' => md5($this->input->post('init-pass')),
                     'emp_image' => $image_name,
-                    'rfid' => 'None'
+                    'rfid' => $this->input->post('rfid-num')
                 );
 
                 $this->Admin_model->employee_registration($info);
@@ -794,7 +796,7 @@ class Admin extends CI_Controller
     }
 
     //VIew Profile 
-    public function profile_view() 
+    public function profile_view()
     {
         $data['title'] = 'Calibr8 - My Profile';
         $data['admin'] = $this->Admin_model->get_emp_row($this->session->userdata('id'));
