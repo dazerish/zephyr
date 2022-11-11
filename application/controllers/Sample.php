@@ -16,7 +16,7 @@
 
         
 
-
+        //Login API
         public function login() {
             header('Content-Type: application/json');
 
@@ -52,6 +52,7 @@
 
         }
 
+        //Token Reference
         public function token() { //JWT Token
             $jwt = new JWT();
 
@@ -66,6 +67,7 @@
             echo json_encode($token);
         }
 
+        //Decode Token for Login API
         public function login_decode() { //Error Handling - status code(403)
             $headers = apache_request_headers();
             $token = $headers['Authorization'];
@@ -97,6 +99,8 @@
             return $token1;
         }
 
+
+        //Decode Token
         public function decode_token() { //Error Handling - status code(403)
             $headers = apache_request_headers();
             $token = $headers['Authorization'];
@@ -126,6 +130,8 @@
             return $token1;
         }
 
+
+        //Display Employee API
         public function display_emp() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
@@ -139,6 +145,7 @@
 
         }
 
+        //Display Devices API
         public function display_dev() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
@@ -150,7 +157,58 @@
             }
         }
 
+        public function display_specialized() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
 
+            if(isset($token)) {
+                $response = $this->Sample_model->display_specialized();
+                echo json_encode($response);
+            }
+        }
+
+        public function display_networking() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->display_networking();
+                echo json_encode($response);
+            }
+        }
+
+        public function display_peripherals() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->display_peripherals();
+                echo json_encode($response);
+            }
+        }
+
+        public function display_output() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->display_output();
+                echo json_encode($response);
+            }
+        }
+
+        public function display_processing() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->display_processing();
+                echo json_encode($response);
+            }
+        }
+
+
+        //Borrow API
         public function set_reserveDate() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
@@ -180,7 +238,7 @@
                             'borrowedDev_name' => $dev_name,
                             'request_time' => date("Y-m-d H:i:s", strtotime('now')),
                             'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
-                            'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+1 month'))
+                            'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+2 months'))
                         );
     
                         //Device Status Info
@@ -214,6 +272,26 @@
             }
     
             return TRUE;
+        }
+
+        //Location API
+        public function send_devLoc() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $unique_num = $this->input->post('unique-num');
+
+                $info = array(
+                    'latitude' => $this->input->post('latitude'),
+                    'longitude' => $this->input->post('longitude')
+                );
+
+                $this->Sample_model->send_devLoc($info, $unique_num);
+
+                echo json_encode(['message' => TRUE ]);
+            }
+
         }
 
     }
