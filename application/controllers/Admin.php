@@ -781,7 +781,7 @@ class Admin extends CI_Controller
                     'manufacturer' => $this->input->post('manuf'),
                     'specs' => nl2br($this->input->post('specs')),
                     'dev_image' => $image_name,
-                    'rfid' => 'None',
+                    'rfid' => $this->input->post('rfid-num'),
                     'cur_status' => 'Available',
                     'prev_status' => 'None'
                 );
