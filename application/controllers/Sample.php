@@ -397,10 +397,10 @@
 
             if(isset($token)) {
                 $unique_num = $this->input->post('unique_num');
-                $reject = $this->input->post('reject');
-                $approve = $this->input->post('approve');
+                $button = $this->input->post('button');
+                
 
-                if($reject) {
+                if($button == 'Reject') {
                     $transaction_status = array(
                         'transaction_status' => 'Rejected',
                         'request_time' => date("Y-m-d H:i:s", strtotime('now'))
@@ -415,7 +415,7 @@
                     echo json_encode(['message' => TRUE]);
                 }
 
-                if($approve) {
+                if($button == 'Approve') {
                     $transaction_status = array(
                         'transaction_status' => 'Approved',
                         'request_time' => date("Y-m-d H:i:s", strtotime('now'))
