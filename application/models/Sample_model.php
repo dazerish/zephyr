@@ -53,5 +53,7 @@
         public function send_devLoc($info, $unique_num) {
             $this->db->update('devices', $info, ['unique_num' => $unique_num]);
         }
+
+        
     }
 ?>
