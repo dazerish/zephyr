@@ -100,7 +100,7 @@
         //Device Details - Admin Side
         public function get_dev_details($unique_num) {
             $sql = "SELECT * FROM transaction
-            WHERE unique_num = '$unique_num' 
+            WHERE borrowedDev_id = '$unique_num' 
             AND transaction_status IN ('Approved','Issued','Lost','Broken','Maintenance')";
             $query = $this->db->query($sql);
             return $query->result_array();
