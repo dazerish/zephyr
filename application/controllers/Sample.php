@@ -491,9 +491,12 @@
 
             if(isset($token)) {
                 $unique_num = $this->input->post('unique_num');
-                $response = $this->Sample_model->get_dev_details($unique_num);
+                $responses = $this->Sample_model->get_dev_details($unique_num);
 
-                echo json_encode([$response]);
+                // echo json_encode($response);
+                foreach($responses as $response) {
+                    echo json_encode($response);
+                }
 
             }
         }
