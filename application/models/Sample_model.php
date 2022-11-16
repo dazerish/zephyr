@@ -58,7 +58,7 @@
         public function transacted_dev($emp_name) {
             // return $this->db->get_where('transaction', ['transaction_status' => 'Approved','borrower' => $emp_name])->result();
             $sql = "SELECT * FROM transaction 
-            WHERE borrower = '$emp_name' AND (transaction_status = 'Approved' OR transaction_status = 'Issued')
+            WHERE borrower = '$emp_name' AND (transaction_status = 'Approved' AND transaction_status = 'Issued')
             ORDER BY transaction_id DESC LIMIT 5";
             $query = $this->db->query($sql);
             return $query->result_array();
