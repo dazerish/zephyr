@@ -482,5 +482,20 @@
                 }
             }
         }
+
+
+        //Device Details
+        public function device_details() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $unique_num = $this->input->post('unique_num');
+                $response = $this->Sample_model->get_dev_details($unique_num);
+
+                echo json_encode($response);
+
+            }
+        }
     }
 ?>
