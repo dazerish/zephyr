@@ -301,7 +301,7 @@
 
             if(isset($token)) {
                 $emp_name = $this->input->post('emp_name');
-                $transacted_dev = $this->Admin_model->transacted_dev($emp_name);
+                $transacted_dev = $this->Sample_model->transacted_dev($emp_name);
 
                 foreach($transacted_dev as $device) {
                     echo json_encode(['device_name' => $device->borrowedDev_name,
