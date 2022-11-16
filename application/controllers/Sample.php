@@ -306,7 +306,7 @@
                 foreach($transacted_dev as $device) {
                     echo json_encode(['device_name' => $device->borrowedDev_name,
                                        'device_id' => $device->borrowedDev_id,
-                                       'borrower' => $device->borrwer]);
+                                       'borrower' => $device->borrower]);
                 }
 
 
