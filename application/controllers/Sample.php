@@ -308,7 +308,7 @@
             }
         }
 
-        //Transaction Logs
+        //Transaction Logs 
         public function transaction_logs() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
@@ -330,38 +330,52 @@
                 $dev_status = $this->input->post('device_status');
                 // $borrower = $this->input->post('borrower');
 
+                $transaction_status = $this->Sample_model->check_transaction_status();
 
-                if($dev_status == 'Lost') {
-                    $trans_info = array(
-                        'transaction_status' => 'Lost',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-                    );
-                    $status_info = array(
-                        'cur_status' => 'Lost',
-                        'prev_status' => 'Issued'
-                    );
-                }
+                if($transaction_status) {
+                    if($dev_status == 'Lost') {
+                        $trans_info = array(
+                            'transaction_status' => 'Lost',
+                            'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        );
+                        $status_info = array(
+                            'cur_status' => 'Lost',
+                            'prev_status' => 'Issued'
+                        );
 
-                if($dev_status == 'Broken') {
-                    $trans_info = array(
-                        'transaction_status' => 'Broken',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-                    );
-                    $status_info = array(
-                        'cur_status' => 'Broken',
-                        'prev_status' => 'Issued'
-                    );
-                }
+                        $this->Sample_model->report($trans_info, $status_info, $unique_num);
+                        echo json_encode(['message' => TRUE]);
+                    }
 
-                if($dev_status == 'Maintenance') {
-                    $trans_info = array(
-                        'transaction_status' => 'Maintenance',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-                    );
-                    $status_info = array(
-                        'cur_status' => 'Maintenance',
-                        'prev_status' => 'Issued'
-                    );
+                    if($dev_status == 'Broken') {
+                        $trans_info = array(
+                            'transaction_status' => 'Broken',
+                            'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        );
+                        $status_info = array(
+                            'cur_status' => 'Broken',
+                            'prev_status' => 'Issued'
+                        );
+
+                        $this->Sample_model->report($trans_info, $status_info, $unique_num);
+                        echo json_encode(['message' => TRUE]);
+                    }
+
+                    if($dev_status == 'Maintenance') {
+                        $trans_info = array(
+                            'transaction_status' => 'Maintenance',
+                            'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        );
+                        $status_info = array(
+                            'cur_status' => 'Maintenance',
+                            'prev_status' => 'Issued'
+                        );
+
+                        $this->Sample_model->report($trans_info, $status_info, $unique_num);
+                        echo json_encode(['message' => TRUE]);
+                    }
+                } else {
+                    echo json_encode(['message' => 'Device is not yet Issued']);
                 }
             }
         } 

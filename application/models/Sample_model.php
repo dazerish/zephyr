@@ -72,8 +72,13 @@
         }
 
         //Report API
-        public function report($info, $status_info) {
-
+        public function check_transaction_status() {
+            $query = $this->db->get_where('transaction', ['transaction_status' => 'Issued']);
+            return $query;
+        }
+        public function report($trans_info, $status_info, $unique_num) {
+            $this->db->update('transaction', $trans_info, ['borrwedDev_id' => $unique_num]);
+            $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
         }
     }
 ?>
