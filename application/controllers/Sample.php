@@ -312,5 +312,16 @@
 
             }
         }
+
+        //Transaction Logs
+        public function transaction_logs() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->transaction_logs();
+                echo json_encode($response);
+            }
+        }
     }
 ?>

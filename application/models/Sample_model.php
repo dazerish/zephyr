@@ -64,5 +64,11 @@
             $query = $this->db->query($sql);
             return $query->result();
         }
+
+        //Transaction Logs API
+        public function transaction_logs() {
+            $query = $this->db->get('transaction')->result_array();
+            return $query;
+        }
     }
 ?>
