@@ -301,15 +301,9 @@
 
             if(isset($token)) {
                 $emp_name = $this->input->post('emp_name');
-                $transacted_dev = $this->Sample_model->transacted_dev($emp_name);
+                $response = $this->Sample_model->transacted_dev($emp_name);
 
-                foreach($transacted_dev as $device) {
-                    echo json_encode(['transaction_status' => $device['transaction_status'],
-                                       'device_name' => $device['borrowedDev_name'],
-                                       'device_id' => $device['borrowedDev_id'],
-                                       'borrower' => $device['borrower']]);
-                }
-
+                echo json_encode($response);
 
             }
         }
