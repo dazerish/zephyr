@@ -103,7 +103,7 @@
             WHERE borrowedDev_id = '$unique_num' 
             AND transaction_status IN ('Approved','Issued','Lost','Broken','Maintenance')";
             $query = $this->db->query($sql);
-            return $query->result_array();
+            return $query->result();
         }
     }
 ?>
