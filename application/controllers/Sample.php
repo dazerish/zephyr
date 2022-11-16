@@ -304,9 +304,10 @@
                 $transacted_dev = $this->Sample_model->transacted_dev($emp_name);
 
                 foreach($transacted_dev as $device) {
-                    echo json_encode(['device_name' => $device->borrowedDev_name,
-                                       'device_id' => $device->borrowedDev_id,
-                                       'borrower' => $device->borrower]);
+                    echo json_encode(['transaction_status' => $device['transaction_status'],
+                                       'device_name' => $device['borrowedDev_name'],
+                                       'device_id' => $device['borrowedDev_id'],
+                                       'borrower' => $device['borrower']]);
                 }
 
 
@@ -323,5 +324,52 @@
                 echo json_encode($response);
             }
         }
+
+
+        //Report API 
+        public function report_transaction() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $unique_num = $this->input->post('unique_num');
+                $dev_status = $this->input->post('device_status');
+                // $borrower = $this->input->post('borrower');
+
+
+                if($dev_status == 'Lost') {
+                    $trans_info = array(
+                        'transaction_status' => 'Lost',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+                    $status_info = array(
+                        'cur_status' => 'Lost',
+                        'prev_status' => 'Issued'
+                    );
+                }
+
+                if($dev_status == 'Broken') {
+                    $trans_info = array(
+                        'transaction_status' => 'Broken',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+                    $status_info = array(
+                        'cur_status' => 'Broken',
+                        'prev_status' => 'Issued'
+                    );
+                }
+
+                if($dev_status == 'Maintenance') {
+                    $trans_info = array(
+                        'transaction_status' => 'Maintenance',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+                    $status_info = array(
+                        'cur_status' => 'Maintenance',
+                        'prev_status' => 'Issued'
+                    );
+                }
+            }
+        } 
     }
 ?>
