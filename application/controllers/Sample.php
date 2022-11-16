@@ -332,7 +332,7 @@
 
                 $transaction_status = $this->Sample_model->check_transaction_status();
 
-                if($transaction_status) {
+                if($transaction_status == $dev_status) {
                     if($dev_status == 'Lost') {
                         $trans_info = array(
                             'transaction_status' => 'Lost',
