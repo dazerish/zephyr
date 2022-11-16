@@ -397,8 +397,8 @@
 
             if(isset($token)) {
                 $unique_num = $this->input->post('unique_num');
-                $reject = $this->input->post('reject_btn');
-                $approve = $this->input->post('approve_btn');
+                $reject = $this->input->post('reject');
+                $approve = $this->input->post('approve');
 
                 if($reject) {
                     $transaction_status = array(
