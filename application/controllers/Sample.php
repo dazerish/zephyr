@@ -378,6 +378,58 @@
                     echo json_encode(['message' => 'Device is not yet Issued']);
                 }
             }
-        } 
+        }
+        
+        //Device Approval API
+        public function device_approval_list() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->get_transaction_table();
+                echo json_encode($response);
+            }
+        }
+
+        public function device_approval() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $unique_num = $this->input->post('unique_num');
+                $reject = $this->input->post('reject_btn');
+                $approve = $this->input->post('approve_btn');
+
+                if($reject) {
+                    $transaction_status = array(
+                        'transaction_status' => 'Rejected',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+            
+                    $status_info = array(
+                        'cur_status' => 'Available',
+                        'prev_status' => 'Reserved'
+                    );
+
+                    $this->Sample_model->reject_device($transaction_status, $status_info, $unique_num);
+                    echo json_encode(['message' => TRUE]);
+                }
+
+                if($approve) {
+                    $transaction_status = array(
+                        'transaction_status' => 'Approved',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+            
+                    $status_info = array(
+                        'cur_status' => 'Borrowed',
+                        'prev_status' => 'Reserved'
+                    );
+
+                    $this->Sample_model->approve_device($transaction_status, $status_info, $unique_num);
+                    echo json_encode(['message' => TRUE]);
+                }
+            }
+        }
     }
 ?>

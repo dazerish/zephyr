@@ -80,5 +80,22 @@
             $this->db->update('transaction', $trans_info, ['borrwedDev_id' => $unique_num]);
             $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
         }
+
+        //Device Approval API
+        public function get_transaction_table() {
+            $sql = "SELECT * FROM transaction
+            WHERE transaction_status = 'Pending'
+            ORDER BY transaction_id DESC";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function reject_device($transaction_status, $status_info, $unique_num) {
+            $this->db->update('transaction', $transaction_status, ['borrowedDev_id' => $unique_num]);
+            $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
+        }
+        public function approve_device($transaction_status, $status_info, $unique_num) {
+            $this->db->update('transaction', $transaction_status, ['borrowedDev_id' => $unique_num]);
+            $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
+        }
     }
 ?>
