@@ -62,7 +62,7 @@
             ORDER BY transaction_id DESC
             LIMIT 5";
             $query = $this->db->query($sql);
-            return $query->result();
+            return $query->result_array();
         }
 
         //Transaction Logs API
