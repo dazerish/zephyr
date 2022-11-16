@@ -260,6 +260,57 @@
         
     
         }
+        public function exec_reserveDate() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+            
+            
+            try {
+                $this->form_validation->set_rules('reservation_date', 'Reservation Date', 'required|callback_validate_reserveDate', array(
+                    'required' => 'Please set a %s'
+                ));
+                
+                if (isset($token)) {
+
+                    if ($this->form_validation->run() == FALSE) {
+                        throw new \Exception('Please enter a valid date');
+    
+                    } else {
+                        $dev_name = $this->input->post('dev-name');
+                        $device_name = str_replace('%20', ' ', $dev_name);
+                        $unique_num = $this->input->post('unique-num');
+                        $reservation_date = $this->input->post('reservation_date');
+                        
+                        //Reserved Date Info
+                        $info = array(
+                            'transaction_status' => 'Approved',
+                            'borrower' => $this->input->post('borrower'),
+                            'borrowedDev_id' => $this->input->post('unique-num'),
+                            'borrowedDev_name' => $dev_name,
+                            'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                            'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
+                            'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+2 months'))
+                        );
+    
+                        //Device Status Info
+                        $status_info = array(
+                            'cur_status' => 'Borrowed',
+                            'prev_status' => 'Available'
+                        );
+    
+                        $this->Employee_model->set_reserveDate($info, $status_info, $unique_num);
+    
+                        echo json_encode(['message' => TRUE ]);
+    
+                    }
+                }    
+
+            } catch(\Exception $error) {
+                echo json_encode(['message' => $error->getMessage()]);
+            }
+        
+    
+        }
 
         public function validate_reserveDate($reservation_date) {
 
