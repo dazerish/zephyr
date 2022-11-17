@@ -385,7 +385,9 @@
                 if($dev_status == 'Lost') {
                     $trans_info = array(
                         'transaction_status' => 'Lost',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'decision_time' => '00-00-00 00:00:00',
+                        'return_date' => '00-00-00 00:00:00'
                     );
                     $status_info = array(
                         'cur_status' => 'Lost',
@@ -399,7 +401,9 @@
                 if($dev_status == 'Broken') {
                     $trans_info = array(
                         'transaction_status' => 'Broken',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'decision_time' => '00-00-00 00:00:00',
+                        'return_date' => '00-00-00 00:00:00'
                     );
                     $status_info = array(
                         'cur_status' => 'Broken',
@@ -413,7 +417,9 @@
                 if($dev_status == 'Maintenance') {
                     $trans_info = array(
                         'transaction_status' => 'Maintenance',
-                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'decision_time' => '00-00-00 00:00:00',
+                        'return_date' => '00-00-00 00:00:00'
                     );
                     $status_info = array(
                         'cur_status' => 'Maintenance',
