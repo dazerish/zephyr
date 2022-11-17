@@ -391,7 +391,7 @@
                     );
                     $status_info = array(
                         'cur_status' => 'Lost',
-                        'prev_status' => 'Issued'
+                        'prev_status' => 'Deployed'
                     );
 
                     $this->Sample_model->report($trans_info, $status_info, $unique_num);
@@ -407,7 +407,7 @@
                     );
                     $status_info = array(
                         'cur_status' => 'Broken',
-                        'prev_status' => 'Issued'
+                        'prev_status' => 'Deployed'
                     );
 
                     $this->Sample_model->report($trans_info, $status_info, $unique_num);
@@ -423,7 +423,7 @@
                     );
                     $status_info = array(
                         'cur_status' => 'Maintenance',
-                        'prev_status' => 'Issued'
+                        'prev_status' => 'Broken'
                     );
 
                     $this->Sample_model->report($trans_info, $status_info, $unique_num);
