@@ -452,7 +452,7 @@
                         'prev_status' => 'Broken'
                     );
 
-                    $this->Sample_model->report($transaction_info, $status_info, $unique_num);
+                    $this->Sample_model->report_dev($transaction_info, $status_info, $unique_num);
                     echo json_encode(['message' => TRUE]);
                 }
 
@@ -467,7 +467,22 @@
                         'prev_status' => 'Maintenance'
                     );
 
-                    $this->Sample_model->report($transaction_info, $status_info, $unique_num);
+                    $this->Sample_model->report_dev($transaction_info, $status_info, $unique_num);
+                    echo json_encode(['message' => TRUE]);
+                }
+
+                if($button == 'Recovered') {
+                    $transaction_info = array(
+                        'transaction_status' => 'Recovered',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+
+                    $status_info = array(
+                        'cur_status' => 'Available',
+                        'prev_status' => 'Lost'
+                    );
+
+                    $this->Sample_model->report_dev($transaction_info, $status_info, $unique_num);
                     echo json_encode(['message' => TRUE]);
                 }
             }
