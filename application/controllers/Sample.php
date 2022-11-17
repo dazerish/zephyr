@@ -381,9 +381,9 @@
                 $dev_status = $this->input->post('device_status');
                 // $borrower = $this->input->post('borrower');
 
-                $transaction_status = $this->Sample_model->check_transaction_status();
+                $transaction_status = $this->Sample_model->check_transaction_status($unique_num);
 
-                if($transaction_status == $dev_status) { //Check if pending/approved
+                if($transaction_status) { //Check if pending/approved
                     if($dev_status == 'Lost') {
                         $trans_info = array(
                             'transaction_status' => 'Lost',
