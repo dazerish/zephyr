@@ -76,7 +76,7 @@
             return $query;
         }
         public function report($trans_info, $status_info, $unique_num) {
-            $this->db->update('transaction', $trans_info, ['borrwedDev_id' => $unique_num]);
+            $this->db->update('transaction', $trans_info, ['borrowedDev_id' => $unique_num]);
             $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
         }
 
