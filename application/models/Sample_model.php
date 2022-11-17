@@ -80,6 +80,12 @@
             $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
         }
 
+        //Report -- Admin
+        public function report_dev($transaction_info, $status_info, $unique_num) {
+            $this->db->update('transaction', $transaction_info, ['borrowedDev_id' => $unique_num]);
+            $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
+        }
+
         //Device Approval API
         public function get_transaction_table() {
             $sql = "SELECT * FROM transaction

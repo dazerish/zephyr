@@ -431,6 +431,47 @@
                 }
             }
         }
+
+        //Report API --Admin
+        public function report_dev() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $unique_num = $this->input->post('unique_num');
+                $button = $this->input->post('button');
+
+                if($button == 'Maintenance') {
+                    $transaction_info = array(
+                        'transaction_status' => 'Maintenance',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+
+                    $status_info = array(
+                        'cur_status' => 'Maintenance',
+                        'prev_status' => 'Broken'
+                    );
+
+                    $this->Sample_model->report($transaction_info, $status_info, $unique_num);
+                    echo json_encode(['message' => TRUE]);
+                }
+
+                if($button == 'Repaired') {
+                    $transaction_info = array(
+                        'transaction_status' => 'Repaired',
+                        'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                    );
+
+                    $status_info = array(
+                        'cur_status' => 'Available',
+                        'prev_status' => 'Maintenance'
+                    );
+
+                    $this->Sample_model->report($transaction_info, $status_info, $unique_num);
+                    echo json_encode(['message' => TRUE]);
+                }
+            }
+        }
         
         //Device Approval API
         public function device_approval_list() {
