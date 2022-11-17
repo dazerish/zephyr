@@ -71,10 +71,10 @@
         }
 
         //Report API
-        public function check_transaction_status($unique_num) {
-            $query = $this->db->get_where('transaction', ['transaction_status' => 'Issued', 'borrowedDev_id' => $unique_num]);
-            return $query;
-        }
+        // public function check_transaction_status($unique_num) {
+        //     $query = $this->db->get_where('transaction', ['transaction_status' => 'Issued', 'borrowedDev_id' => $unique_num]);
+        //     return $query;
+        // }
         public function report($trans_info, $status_info, $unique_num) {
             $this->db->update('transaction', $trans_info, ['borrowedDev_id' => $unique_num]);
             $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
