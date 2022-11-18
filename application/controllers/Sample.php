@@ -581,7 +581,7 @@
                         'notif_status' => 1
                     );
 
-                    $this->Sample_model->upd_notif_status($trans_info, $trans_id);
+                    $this->Sample_model->upd_notif_status($notif_status, $trans_id);
                     echo json_encode(['message' => TRUE]);
                 }
             }
