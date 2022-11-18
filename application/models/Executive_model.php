@@ -33,6 +33,15 @@ class Executive_model extends CI_Model
     {
         return $this->db->count_all('users');
     }
+    public function transacted_dev($emp_name) {
+        // return $this->db->get_where('transaction', ['transaction_status' => 'Approved','borrower' => $emp_name])->result();
+        $sql = "SELECT * FROM transaction
+        WHERE borrower = '$emp_name' AND transaction_status IN ('Approved','Deployed','Lost','Broken','Maintenance')
+        ORDER BY transaction_id DESC
+        LIMIT 5";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 
     public function get_emp_row($id)
     {
@@ -129,6 +138,94 @@ class Executive_model extends CI_Model
     {
         $this->db->insert('transaction', $info);
         $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
+    }
+
+
+    //Dashboard
+    // Made by JL for admin dashboard, please move where appropriate
+    public function executive_dashboard()
+    {
+        // pie chart query
+        $pie_sql = "SELECT dev_model, COUNT(dev_model) AS device_count
+        FROM devices
+        GROUP BY dev_model
+        HAVING COUNT(*)>0";
+        $pie_query = $this->db->query($pie_sql);
+        $pie_data = $pie_query->result();
+
+        // DEVICE IN
+
+        // count the number of devices where the status is available
+        $device_in_sql = "SELECT COUNT(*) AS device_count
+        FROM devices
+        WHERE cur_status='Available'";
+        $device_in_query = $this->db->query($device_in_sql);
+        $device_in_data = $device_in_query->result();
+
+        // DEVICE OUT
+
+        // count the number of devices where the status is borrowed
+        $device_out_sql = "SELECT COUNT(*) AS device_count
+        FROM devices
+        WHERE cur_status='Borrowed' OR cur_status='Deployed'";
+        $device_out_query = $this->db->query($device_out_sql);
+        $device_out_data = $device_out_query->result();
+
+        // RESERVED
+
+        // count the number of devices where the status is reserved
+        $reserved_sql = "SELECT COUNT(*) AS device_count
+        FROM devices
+        WHERE cur_status='Reserved'";
+        $reserved_query = $this->db->query($reserved_sql);
+        $reserved_data = $reserved_query->result();
+
+        // BROKEN DEVICES
+
+        //count the number of devices where the status is broken
+        $broken_sql = "SELECT COUNT(*) AS device_count
+        FROM devices
+        WHERE cur_status='Broken'";
+        $broken_query = $this->db->query($broken_sql);
+        $broken_data = $broken_query->result();
+
+        // DEVICES IN MAINTENANCE
+
+        //count the number of devices where the status is maintenance
+        $maintenance_sql = "SELECT COUNT(*) AS device_count
+        FROM devices
+        WHERE cur_status='Maintenance'";
+        $maintenance_query = $this->db->query($maintenance_sql);
+        $maintenance_data = $maintenance_query->result();
+
+        // pass data to dashboard
+        $results = array($pie_data, $device_in_data, $device_out_data, $reserved_data, $broken_data, $maintenance_data);
+        return $results;
+    }
+
+
+    //Generate Reports
+    public function fetch_data($start_date, $end_date) {
+
+        $sql = "SELECT * FROM transaction
+        WHERE request_time BETWEEN '$start_date' AND '$end_date'
+        ORDER BY transaction_id DESC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+    public function fetch_dev_logs($start_date, $end_date) {
+        $sql = "SELECT * FROM device_logs
+        WHERE date_issued BETWEEN '$start_date' AND '$end_date'
+        ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+    public function fetch_emp_logs($start_date, $end_date) {
+        $sql = "SELECT * FROM employee_logs
+        WHERE time_in BETWEEN '$start_date' AND '$end_date'
+        ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
     }
 
 }

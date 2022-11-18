@@ -56,30 +56,53 @@
                             </div>
                         </td>   
                     </tr>
-                <?php endforeach; ?> 
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
     
-    <?= $this->pagination->create_links(); ?>
+    <div class="pagination-div">
+      <?= $this->pagination->create_links(); ?>
+    </div>
+    
 </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="removeBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Fix borrowedDev_id showing -->
+
+<!-- <div class="modal fade" id="approveBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to remove this device?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        You are going to remove <?= $device->dev_name; ?>. Continue?
+        You are going to approve. Continue?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="<?= site_url('Admin/remove_device/') . $device->id; ?>" class="btn btn-danger">Remove Device</a>
+        <a href="//enter site url" class="btn btn-success">Approve</a>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="declineBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to decline?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        You are going to decline <span id="device-name"></span>. Continue?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="//enter site url" class="btn btn-danger">Decline</a>
+      </div>
+    </div>
+  </div>
+</div> -->

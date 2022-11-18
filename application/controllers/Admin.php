@@ -1,7 +1,6 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 require 'vendor/autoload.php';
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -129,6 +128,8 @@ class Admin extends CI_Controller
     { //Under Employee Masterlist
         $data['title'] = "Calibr8 - View Employee Details";
         $data['employee'] = $this->Admin_model->get_emp_row($id);
+        $emp_name = $data['employee']->emp_name;
+        $data['transacted_dev'] = $this->Admin_model->transacted_dev($emp_name);
 
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_employee_view', $data);
@@ -154,7 +155,7 @@ class Admin extends CI_Controller
     public function editEmp_details()
     {
         $image_config = array(
-            'upload_path' => './assets/users_image',
+            'upload_path' => './assets/user_image',
             'allowed_types' => 'gif|jpg|png',
             'max_size' => 5000000000,
             'max_width' => 204800,
@@ -250,7 +251,7 @@ class Admin extends CI_Controller
 
         $data['title'] = 'Calibr8 - Device Masterlist';
         $data['devices'] = $this->Admin_model->get_devices_table($page_config['per_page'], $page, NULL);
-        $data['total'] = $this->Admin_model->get_dCount();
+        $data['total'] = $this->Admin_model->total_dev();
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_dev_masterlist');
         $this->load->view('include/footer');
@@ -309,6 +310,196 @@ class Admin extends CI_Controller
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_device_view', $data);
         $this->load->view('include/footer');
+    }
+
+    public function device_status() {
+        $deployed = $this->input->post('Deployed');
+        $returned = $this->input->post('Returned');
+        $overdue = $this->input->post('Overdue');
+        $lost = $this->input->post('Lost');
+        $broken = $this->input->post('Broken');
+        $repaired = $this->input->post('Repaired');
+        $recovered = $this->input->post('Recovered');
+        $maintenance = $this->input->post('Maintenance');
+        $decommissioned = $this->input->post('Decommissioned');
+        // $unique_num = $this->input->post('unique-num');
+
+        if(isset($deployed)) { //Deployed
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Deployed',
+                'prev_status' => 'Borrowed'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Deployed',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($returned)) { //Returned
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Returned',
+                'prev_status' => 'Deployed'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Returned',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($overdue)) { //Overdue
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Overdue',
+                'prev_status' => 'Deployed'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Overdue',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($lost)) { //Lost
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Lost',
+                'prev_status' => 'Deployed'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Lost',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                'decision_time' => '00-00-00 00:00:00',
+                'return_date' => '00-00-00 00:00:00'
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($broken)) { //Broken
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Broken',
+                'prev_status' => 'Deployed'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Broken',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                'decision_time' => '00-00-00 00:00:00',
+                'return_date' => '00-00-00 00:00:00'
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($repaired)) { //Repaired
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Available',
+                'prev_status' => 'Maintenance'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Repaired',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                'decision_time' => '00-00-00 00:00:00',
+                'return_date' => '00-00-00 00:00:00'
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($recovered)) { //Recovered
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Available',
+                'prev_status' => 'Lost'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Recovered',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                'decision_time' => '00-00-00 00:00:00',
+                'return_date' => '00-00-00 00:00:00'
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($maintenance)) { //Maintenance
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Maintenance',
+                'prev_status' => 'Broken'
+            );
+
+            $trans_info = array(
+                'transaction_status' => 'Maintenance',
+                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                'decision_time' => '00-00-00 00:00:00',
+                'return_date' => '00-00-00 00:00:00'
+            );
+
+            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+            $updated = "Device status was updated";
+            $this->session->set_flashdata('updated', $updated);
+            $this->device_view($id);
+        }
+
+        if(isset($decommissioned)) { //Decommisioned
+            $id = $this->input->post('dev-id');
+            $unique_num = $this->input->post('unique_num');
+            $device_info = array(
+                'cur_status' => 'Decommissioned',
+                'prev_status' => 'None'
+            );
+
+            $this->Admin_model->status_decommissioned($device_info, $unique_num);
+            $decom = "Device was decommissioned";
+            $this->session->set_flashdata('decom', $decom);
+            $this->device_view($id);
+        }
+
     }
 
     public function remove_device($id)
@@ -400,7 +591,7 @@ class Admin extends CI_Controller
 
 
     //Device Approval List
-    public function devApproval_view()
+    public function devApproval_view() 
     {
         $page_config = array(
             'base_url' => site_url('Admin/devApproval_view'),
@@ -442,10 +633,11 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
-    public function reject_device()
+    public function reject_device() 
     {
         $transaction_status = array(
-            'transaction_status' => 'Rejected'
+            'transaction_status' => 'Rejected',
+            'request_time' => date("Y-m-d H:i:s", strtotime('now'))
         );
 
         $status_info = array(
@@ -465,7 +657,8 @@ class Admin extends CI_Controller
     public function approve_device()
     {
         $transaction_status = array(
-            'transaction_status' => 'Approved'
+            'transaction_status' => 'Approved',
+            'request_time' => date("Y-m-d H:i:s", strtotime('now'))
         );
 
         $status_info = array(
@@ -476,7 +669,7 @@ class Admin extends CI_Controller
         $transaction_id = $this->uri->segment(3);
         $borrowedDev_id = $this->uri->segment(4);
 
-        $this->Admin_model->reject_device($transaction_status, $status_info, $transaction_id, $borrowedDev_id);
+        $this->Admin_model->approve_device($transaction_status, $status_info, $transaction_id, $borrowedDev_id);
         $approved = "The device was approved.";
         $this->session->set_flashdata('approved', $approved);
         redirect('Admin/devApproval_view');
@@ -484,8 +677,7 @@ class Admin extends CI_Controller
 
 
     //Transaction Logs
-    public function transaction_logs()
-    {
+    public function transaction_logs() {
 
         $page_config = array(
             'base_url' => site_url('Admin/transaction_logs'),
@@ -527,20 +719,55 @@ class Admin extends CI_Controller
     }
 
 
-    //System Logs
-    public function system_logs()
-    {
-
-        $data['title'] = 'Calibr8 - System Logs';
+    //Device Logs - Try to implement pagination
+    public function device_logs() {
+        $data['title'] = 'Calibr8 - Device Logs';
         $this->load->view('include/admin_header', $data);
-        $this->load->view('admin/admin_sysLogs_view');
+        $this->load->view('admin/admin_devLogs_view');
         $this->load->view('include/footer');
+        
+    }
+    public function dev_logs_table() {
+        $dev_logs = $this->Admin_model->dev_logs_table();
+
+        foreach ($dev_logs as $logs) {
+            echo "<tr class='align-middle'>";
+                echo "<td data-label='Device ID'>".$logs->unique_num."</td>";
+                echo "<td data-label='Device Name'>".$logs->dev_name."</td>";
+                echo "<td data-label='RFID'>".$logs->rfid."</td>";
+                echo "<td data-label='Date Issued'>".$logs->date_issued."</td>";
+                echo "<td data-label='Date Returned'>".$logs->date_returned."</td>";
+            echo "</tr>";
+        }
+
+    }
+
+    //Employee Logs
+    public function employee_logs() {
+        $data['title'] = 'Calibr8 - Employee Logs';
+        $this->load->view('include/admin_header', $data);
+        $this->load->view('admin/admin_empLogs_view');
+        $this->load->view('include/footer');
+        
+    }
+    public function emp_logs_table() {
+        $emp_logs = $this->Admin_model->emp_logs_table();
+
+        foreach ($emp_logs as $logs) {
+            echo "<tr class='align-middle'>";
+                echo "<td data-label='Employee ID'>".$logs->emp_id."</td>";
+                echo "<td data-label='Employee Name'>".$logs->emp_name."</td>";
+                echo "<td data-label='RFID'>".$logs->rfid."</td>";
+                echo "<td data-label='Time In'>".$logs->time_in."</td>";
+                echo "<td data-label='Time Out'>".$logs->time_out."</td>";
+            echo "</tr>";
+        }
+
     }
 
 
     //Generate Reports
-    public function generate_reports()
-    {
+    public function generate_reports() {
 
         $data['title'] = 'Calibr8 - Generate Reports';
         $this->load->view('include/admin_header', $data);
@@ -548,8 +775,7 @@ class Admin extends CI_Controller
         $this->load->view('include/footer');
     }
 
-    public function export_csv()
-    {
+    public function export_csv() {
         //Try to put date validation
 
         $this->form_validation->set_rules('start_date', 'Start Date', 'required', array(
@@ -560,47 +786,118 @@ class Admin extends CI_Controller
             'required' => '%s is required.'
         ));
 
-        if ($this->form_validation->run() == FALSE) {
+        if($this->form_validation->run() == FALSE) {
             $this->generate_reports();
         } else {
             $generate_report = $this->input->post('generate-report');
 
-            if (isset($generate_report)) {
+            if(isset($generate_report)) {
                 $s_date = $this->input->post('start_date');
                 $e_date = $this->input->post('end_date');
                 $start_date = date("Y-m-d H:i:s", strtotime($s_date));
                 $end_date = date("Y-m-d H:i:s", strtotime($e_date));
                 // $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
 
+                //Transaction Logs
                 $spreadsheet = new Spreadsheet();
-                $sheet = $spreadsheet->getActiveSheet();
-
-                foreach (range('A', 'H') as $coulumID) {
+                $sheet1 = $spreadsheet->setActiveSheetIndex(0)->setTitle('Transaction Logs');
+                
+                foreach(range('A','H') as $coulumID) {
                     $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
-                }
-                $sheet->getStyle('A:H')->getAlignment()->setHorizontal('center');
 
-                $sheet->setCellValue('A1', 'Report for the date of ' . $s_date . ' to ' . $e_date);
-                $sheet->setCellValue('A2', 'Transaction ID');
-                $sheet->setCellValue('B2', 'Transaction Status');
-                $sheet->setCellValue('C2', 'Borrower');
-                $sheet->setCellValue('D2', 'Device ID');
-                $sheet->setCellValue('E2', 'Device Name');
-                $sheet->setCellValue('F2', 'Request Time');
-                $sheet->setCellValue('G2', 'Decision Time');
-                $sheet->setCellValue('H2', 'Return Date');
+                }
+                $sheet1->getStyle('A:H')->getAlignment()->setHorizontal('center');
+                
+                $sheet1->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
+                $sheet1->setCellValue('A2','Transaction ID');
+                $sheet1->setCellValue('B2','Transaction Status');
+                $sheet1->setCellValue('C2','Borrower');
+                $sheet1->setCellValue('D2','Device ID');
+                $sheet1->setCellValue('E2','Device Name');
+                $sheet1->setCellValue('F2','Reserved Date');
+                $sheet1->setCellValue('G2','Return Date');
+                $sheet1->setCellValue('H2','Timestamp');
 
                 $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
-                $x = 3; //start from row 2
-                foreach ($system_data as $row) {
-                    $sheet->setCellValue('A' . $x, $row['transaction_id']);
-                    $sheet->setCellValue('B' . $x, $row['transaction_status']);
-                    $sheet->setCellValue('C' . $x, $row['borrower']);
-                    $sheet->setCellValue('D' . $x, $row['borrowedDev_id']);
-                    $sheet->setCellValue('E' . $x, $row['borrowedDev_name']);
-                    $sheet->setCellValue('F' . $x, $row['request_time']);
-                    $sheet->setCellValue('G' . $x, $row['decision_time']);
-                    $sheet->setCellValue('H' . $x, $row['return_date']);
+                $x=3; //start from row 2
+                foreach($system_data as $row)
+                {
+                    $sheet1->setCellValue('A'.$x, $row['transaction_id']);
+                    $sheet1->setCellValue('B'.$x, $row['transaction_status']);
+                    $sheet1->setCellValue('C'.$x, $row['borrower']);
+                    $sheet1->setCellValue('D'.$x, $row['borrowedDev_id']);
+                    $sheet1->setCellValue('E'.$x, $row['borrowedDev_name']);
+                    $sheet1->setCellValue('F'.$x, $row['decision_time']);
+                    $sheet1->setCellValue('G'.$x, $row['return_date']);
+                    $sheet1->setCellValue('H'.$x, $row['request_time']);
+                    $x++;
+                }
+
+                //---------------------------------------------------------------
+                //Device Logs
+                $spreadsheet->createSheet();
+                $sheet2 = $spreadsheet->setActiveSheetIndex(1)->setTitle('Device Logs');
+
+                foreach(range('A','G') as $coulumID) {
+                    $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+
+                }
+                $sheet2->getStyle('A:G')->getAlignment()->setHorizontal('center');
+                
+                $sheet2->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
+                $sheet2->setCellValue('A2','Device Logs ID');
+                $sheet2->setCellValue('B2','Device Unique ID');
+                $sheet2->setCellValue('C2','Device Name');
+                $sheet2->setCellValue('D2','RFID');
+                $sheet2->setCellValue('E2','Device UID');
+                $sheet2->setCellValue('F2','Date Deployed');
+                $sheet2->setCellValue('G2','Date Returned');
+
+                $system_data1 = $this->Admin_model->fetch_dev_logs($start_date, $end_date);
+                $x=3; //start from row 2
+                foreach($system_data1 as $row)
+                {
+                    $sheet2->setCellValue('A'.$x, $row['id']);
+                    $sheet2->setCellValue('B'.$x, $row['unique_num']);
+                    $sheet2->setCellValue('C'.$x, $row['dev_name']);
+                    $sheet2->setCellValue('D'.$x, $row['rfid']);
+                    $sheet2->setCellValue('E'.$x, $row['device_uid']);
+                    $sheet2->setCellValue('F'.$x, $row['date_issued']);
+                    $sheet2->setCellValue('G'.$x, $row['date_returned']);
+                    $x++;
+                }
+
+                //---------------------------------------------------------------
+                //Employee Logs
+                $spreadsheet->createSheet();
+                $sheet3 = $spreadsheet->setActiveSheetIndex(2)->setTitle('Employee Logs');
+
+                foreach(range('A','G') as $coulumID) {
+                    $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
+
+                }
+                $sheet3->getStyle('A:G')->getAlignment()->setHorizontal('center');
+                
+                $sheet3->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
+                $sheet3->setCellValue('A2','Employee Logs ID');
+                $sheet3->setCellValue('B2','Employee ID');
+                $sheet3->setCellValue('C2','Employee Name');
+                $sheet3->setCellValue('D2','RFID');
+                $sheet3->setCellValue('E2','Employee UID');
+                $sheet3->setCellValue('F2','Time Deployed');
+                $sheet3->setCellValue('G2','Time Returned');
+
+                $system_data2 = $this->Admin_model->fetch_emp_logs($start_date, $end_date);
+                $x=3; //start from row 2
+                foreach($system_data2 as $row)
+                {
+                    $sheet3->setCellValue('A'.$x, $row['id']);
+                    $sheet3->setCellValue('B'.$x, $row['emp_id']);
+                    $sheet3->setCellValue('C'.$x, $row['emp_name']);
+                    $sheet3->setCellValue('D'.$x, $row['rfid']);
+                    $sheet3->setCellValue('E'.$x, $row['emp_uid']);
+                    $sheet3->setCellValue('F'.$x, $row['time_in']);
+                    $sheet3->setCellValue('G'.$x, $row['time_out']);
                     $x++;
                 }
 
@@ -611,13 +908,49 @@ class Admin extends CI_Controller
 
                 /* for force download */
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                header('Content-Disposition: attachment; filename="' . $fileName . '"');
+                header('Content-Disposition: attachment; filename="'.$fileName.'"');
                 $writer->save('php://output');
                 /* force download end */
             }
         }
+        
     }
 
+    //RFID Mode
+    public function rfid_mode_view() {
+
+        $data['title'] = 'Calibr8 - RFID Mode';
+        $data['arduino'] = $this->Admin_model->get_arduino_data();
+        // $data['employee'] = $this->Admin_model->get_arduino_employee();
+        $this->load->view('include/admin_header', $data);
+        $this->load->view('admin/admin_rfid_mode');
+        $this->load->view('include/footer');
+    }
+    public function arduino_registration() {
+        $info = array(
+            'device_mode' => 0
+        );
+
+        $arduino_id = $this->uri->segment(3);
+
+        $this->Admin_model->registration_mode($info, $arduino_id);
+        $registration = "Arduino ".$arduino_id." was set to Registration";
+        $this->session->set_flashdata('registration', $registration);
+        redirect('Admin/rfid_mode_view');
+
+    }
+    public function arduino_attendance() {
+        $info = array(
+            'device_mode' => 1
+        );
+
+        $arduino_id = $this->uri->segment(3);
+
+        $this->Admin_model->attendance_mode($info, $arduino_id);
+        $attendance = "Arduino ".$arduino_id." was set to Attendance";
+        $this->session->set_flashdata('attendance', $attendance);
+        redirect('Admin/rfid_mode_view');
+    }
 
 
 
@@ -629,6 +962,17 @@ class Admin extends CI_Controller
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_empReg_view');
         $this->load->view('include/footer');
+    }
+    public function empReg_rfid() {
+        $rfid_num = $this->Admin_model->get_empRfid(); 
+        if($rfid_num) {
+            foreach($rfid_num as $key) {
+                $rfid = $key->rfid;
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+            }
+        } else {
+            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+        }
     }
 
     public function employee_registration()
@@ -667,7 +1011,7 @@ class Admin extends CI_Controller
             'min_length' => '%s should have a minimum of 8 characters'
         ));
 
-        // $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
+        // $this->form_validation->set_rules('rfidNum', 'RFID Number', 'required', array(
         //     'required' => '%s is required.',
         // ));
 
@@ -686,8 +1030,8 @@ class Admin extends CI_Controller
             $register = $this->input->post('reg-emp');
 
             if (isset($register)) {
-
                 $id = $this->session->userdata('id');
+                $rfid = $this->input->post('rfidNum'); //Check if still needed
                 $info = array(
                     'emp_id' => $this->input->post('empid'),
                     'emp_name' => $this->input->post('empname'),
@@ -696,10 +1040,11 @@ class Admin extends CI_Controller
                     'emp_role' => $this->input->post('roles'),
                     'password' => md5($this->input->post('init-pass')),
                     'emp_image' => $image_name,
-                    'rfid' => $this->input->post('rfid-num')
+                    'rfid' => $rfid,
+                    'registered' => 1
                 );
 
-                $this->Admin_model->employee_registration($info);
+                $this->Admin_model->employee_registration($info, $rfid);
 
                 $success = "Employee is registered successfully";
                 $this->session->set_flashdata('success', $success);
@@ -707,14 +1052,34 @@ class Admin extends CI_Controller
             }
         }
     }
+    // public function validate_emp_rfid()
 
     public function devReg_view()
     {
 
         $data['title'] = 'Calibr8 - Device Registration';
+        // $rfid_num = $this->Admin_model->get_devRfid(); 
+        // if($rfid_num) {
+        //     foreach($rfid_num as $key) {
+        //       $data['rfid'] = $key->rfid;
+        //     }
+        // } else {
+        //     $data['rfid'] = "";
+        // }
         $this->load->view('include/admin_header', $data);
-        $this->load->view('admin/admin_devReg_view');
+        $this->load->view('admin/admin_devReg_view', $data);
         $this->load->view('include/footer');
+    }
+    public function devReg_rfid() {
+        $rfid_num = $this->Admin_model->get_devRfid(); 
+        if($rfid_num) {
+            foreach($rfid_num as $key) {
+                $rfid = $key->rfid;
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+            }
+        } else {
+            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+        }
     }
 
     public function device_registration()
@@ -753,8 +1118,10 @@ class Admin extends CI_Controller
             'required' => '%s is required.',
         ));
 
-        // $this->form_validation->set_rules('rfid-num', 'RFID Number', 'required', array(
+        //Validation if rfid is in database or not
+        // $this->form_validation->set_rules('rfidNum', 'RFID Number', 'required|callback_validate_rfid', array(
         //     'required' => '%s is required.',
+        //     'is_unique' => 'This %s is already registered.'
         // ));
 
         // $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
@@ -772,6 +1139,7 @@ class Admin extends CI_Controller
             $register = $this->input->post('reg-dev');
 
             if (isset($register)) {
+                $rfid = $this->input->post('rfidNum'); //Check if still needed
 
                 $info = array(
                     'unique_num' => $this->input->post('uniquenum'),
@@ -780,13 +1148,15 @@ class Admin extends CI_Controller
                     'allowed_roles' => $this->input->post('roles'),
                     'manufacturer' => $this->input->post('manuf'),
                     'specs' => nl2br($this->input->post('specs')),
+                    'category' => $this->input->post('category'),
                     'dev_image' => $image_name,
-                    'rfid' => $this->input->post('rfid-num'),
+                    'rfid' => $rfid,
+                    'registered' => 1,
                     'cur_status' => 'Available',
                     'prev_status' => 'None'
                 );
 
-                $this->Admin_model->device_registration($info);
+                $this->Admin_model->device_registration($info, $rfid);
 
                 $success = "Device is registered successfully";
                 $this->session->set_flashdata('success', $success);
@@ -795,8 +1165,16 @@ class Admin extends CI_Controller
         }
     }
 
+    public function validate_rfid($rfid_num) {
+        $rfid = $this->Admin_model->validate_devRfid();
+
+        if($rfid->rfid == $rfid_num && $rfid->registered == 1) {
+            $this->validation->set_message('validate_rfid', 'This RFID Number is already in the database');
+        }
+    }
+
     //VIew Profile 
-    public function profile_view()
+    public function profile_view() 
     {
         $data['title'] = 'Calibr8 - My Profile';
         $data['admin'] = $this->Admin_model->get_emp_row($this->session->userdata('id'));
@@ -859,3 +1237,5 @@ class Admin extends CI_Controller
         return TRUE;
     }
 }
+
+?>

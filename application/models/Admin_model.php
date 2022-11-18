@@ -34,7 +34,7 @@ class Admin_model extends CI_Model
         // count the number of devices where the status is borrowed
         $device_out_sql = "SELECT COUNT(*) AS device_count
         FROM devices
-        WHERE cur_status='Borrowed'";
+        WHERE cur_status='Borrowed' OR cur_status='Deployed'";
         $device_out_query = $this->db->query($device_out_sql);
         $device_out_data = $device_out_query->result();
 
@@ -75,7 +75,7 @@ class Admin_model extends CI_Model
     {
         if ($st == "NIL") $st = "";
         $sql = "SELECT * FROM users 
-        WHERE emp_name LIKE '%$st%' 
+        WHERE emp_name LIKE '%$st%'
         ORDER BY id DESC
         LIMIT " . $start . ", " . $limit;
         $query = $this->db->query($sql);
@@ -100,6 +100,16 @@ class Admin_model extends CI_Model
         return $this->db->get_where('users', ['id' => $id])->row();
     }
 
+    public function transacted_dev($emp_name) {
+        // return $this->db->get_where('transaction', ['transaction_status' => 'Approved','borrower' => $emp_name])->result();
+        $sql = "SELECT * FROM transaction
+        WHERE borrower = '$emp_name' AND transaction_status IN ('Approved','Deployed','Lost','Broken','Maintenance')
+        ORDER BY transaction_id DESC
+        LIMIT 5";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
     public function remove_employee($id)
     {
         $this->db->delete('users', ['id' => $id]);
@@ -114,19 +124,25 @@ class Admin_model extends CI_Model
     public function get_devices_table($limit, $start, $st = NULL)
     {
         if ($st == "NIL") $st = "";
-        $sql = "select * from devices where dev_name like '%$st%' 
-                or dev_model like '%$st%'
-                or manufacturer like '%$st%'  
-                limit " . $start . ", " . $limit;
+        $sql = "SELECT * FROM devices 
+        WHERE (dev_name LIKE '%$st%'
+        OR unique_num LIKE '%$st%' 
+        OR dev_model LIKE '%$st%'
+        OR manufacturer LIKE '%$st%')
+        AND registered = 1  
+        LIMIT " . $start . ", " . $limit;
         $query = $this->db->query($sql);
         return $query->result();
     }
     public function get_devices_count($st = NULL)
     {
         if ($st == "NIL") $st = "";
-        $sql = "select * from devices where dev_name like '%$st%' 
-                or dev_model like '%$st%'
-                or manufacturer like '%$st%'";
+        $sql = "SELECT * FROM devices 
+        WHERE (dev_name LIKE '%$st%'
+        OR unique_num LIKE '%$st%'  
+        OR dev_model LIKE '%$st%'
+        OR manufacturer LIKE '%$st%')
+        AND registered = 1";
         $query = $this->db->query($sql);
         return $query->num_rows();
     }
@@ -134,7 +150,12 @@ class Admin_model extends CI_Model
     {
         return $this->db->count_all('devices');
     }
+    public function total_dev() {
 
+        $this->db->where('registered', 1);
+        $this->db->from('devices');
+        return $this->db->count_all_results();
+    }
 
     public function get_dev_row($id)
     {
@@ -150,6 +171,16 @@ class Admin_model extends CI_Model
     {
         $this->db->update('devices', $info, ['id' => $id]);
     }
+
+    public function update_status($device_info, $trans_info, $unique_num, $id) {
+        $this->db->update('devices', $device_info, ['id' => $id]);
+        $this->db->update('transaction', $trans_info, ['borrowedDev_id' => $unique_num]);
+    }
+
+    public function status_decommissioned($device_info, $unique_num) {
+        $this->db->update('devices', $device_info, ['unique_num' => $unique_num]);
+    }
+
 
     //Device Approval View
     public function get_transaction_table($limit, $start) 
@@ -189,7 +220,7 @@ class Admin_model extends CI_Model
         $this->db->update('devices', $status_info, ['unique_num' => $borrowedDev_id]);
     }
 
-    public function approvde_device($transaction_status, $status_info, $transaction_id, $borrowedDev_id)
+    public function approve_device($transaction_status, $status_info, $transaction_id, $borrowedDev_id)
     {
         $this->db->update('transaction', $transaction_status, ['transaction_id' => $transaction_id]);
         $this->db->update('devices', $status_info, ['unique_num' => $borrowedDev_id]);
@@ -207,82 +238,103 @@ class Admin_model extends CI_Model
         return $this->db->count_all('transaction');
     }
 
-
-
-    //Reservation - Borrowable Device List (REMOVE THIS PLS)
-    public function borrowableDev_count()
-    {
-        $this->db->where(['cur_status' => 'Available', 'allowed_roles' => 'Administrator']);
-        $this->db->from('devices');
-        return $this->db->count_all_results();
+    //Device Logs
+    public function dev_logs_table() {
+        $this->db->limit(10);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('device_logs')->result();
     }
 
-    public function get_devModel($limit, $start, $st = NULL)
-    {   
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
-        FROM devices
-        WHERE (cur_status = 'Available' AND allowed_roles = 'Administrator')
-        AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
-        GROUP BY dev_name
-        HAVING COUNT(*)>0
-        LIMIT $start, $limit";
-        $query = $this->db->query($sql);
-        return $query->result();
+    //Employee Logs
+    public function emp_logs_table() {
+        $this->db->limit(10);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('employee_logs')->result();
     }
 
-    public function count_devModel($st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
-        FROM devices
-        WHERE (cur_status = 'Available' AND allowed_roles = 'Administrator')
-        AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
-        GROUP BY dev_name
-        HAVING COUNT(*)>0";
-        $query = $this->db->query($sql);
-        return $query->num_rows();
-    }
-
-    public function reserveDev($dev_name)
-    {
-
-        $sql = "SELECT * FROM devices 
-        WHERE dev_name = '$dev_name' AND cur_status = 'Available'
-        ORDER BY RAND()
-        LIMIT 1";
-        $query = $this->db->query($sql);
-        return $query->result();
-
-    }
-
-    public function set_reserveDate($info, $status_info, $unique_num)
-    {
-        $this->db->insert('transaction', $info);
-        $this->db->update('devices', $status_info, ['unique_num' => $unique_num]);
-    }
 
     //Generate Reports
     public function fetch_data($start_date, $end_date) {
 
         $sql = "SELECT * FROM transaction
-        WHERE request_time BETWEEN '$start_date' AND '$end_date'";
+        WHERE request_time BETWEEN '$start_date' AND '$end_date'
+        ORDER BY transaction_id DESC";
         $query = $this->db->query($sql);
         return $query->result_array();
+    }
+    public function fetch_dev_logs($start_date, $end_date) {
+        $sql = "SELECT * FROM device_logs
+        WHERE date_issued BETWEEN '$start_date' AND '$end_date'
+        ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+    public function fetch_emp_logs($start_date, $end_date) {
+        $sql = "SELECT * FROM employee_logs
+        WHERE time_in BETWEEN '$start_date' AND '$end_date'
+        ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    //RFID Mode
+    public function get_arduino_data() {
+        $query = $this->db->get('arduino',);
+        return $query->result();
+    }
+    public function registration_mode($info, $arduino_id) {
+        $this->db->update('arduino', $info, ['id' => $arduino_id]);
+    }
+    public function attendance_mode($info, $arduino_id) {
+        $this->db->update('arduino', $info, ['id' => $arduino_id]);
     }
 
 
 
     //Registration Section (Employee)
-    public function employee_registration($info)
+    public function employee_registration($info, $rfid)
     {
-        $this->db->insert('users', $info);
+        $this->db->update('users', $info, ['rfid' => $rfid]);
+    }
+    public function get_empRfid() {
+
+        $sql = "SELECT * FROM users WHERE registered = 0
+        ORDER BY id DESC LIMIT 1";
+        $query = $this->db->query($sql);
+        if($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return false;
+    }
+    public function validate_empRfid() {
+        $this->db->select('*');
+        $this->db->from('users');
+        $query = $this->db->get();
+        return $query->row();
     }
 
     //Registration Section (Device)
-    public function device_registration($info)
+    public function device_registration($info, $rfid)
     {
-        $this->db->insert('devices', $info);
+        $this->db->update('devices', $info, ['rfid' => $rfid]);
+    }
+
+    public function get_devRfid() {
+
+        $sql = "SELECT * FROM devices WHERE registered = 0
+        ORDER BY id DESC LIMIT 1";
+        $query = $this->db->query($sql);
+        if($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return false;
+    }
+
+    public function validate_devRfid() {
+        $this->db->select('*');
+        $this->db->from('devices');
+        $query = $this->db->get();
+        return $query->row();
     }
 
 

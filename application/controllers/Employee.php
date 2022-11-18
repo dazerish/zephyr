@@ -352,3 +352,5 @@ class Employee extends CI_Controller
         return TRUE;
     }
 }
+
+?>

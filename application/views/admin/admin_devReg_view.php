@@ -18,7 +18,25 @@
                   <?= $this->session->userdata('success'); ?>
               </div>
       <?php endif; ?>
+
       <div class="form-step form-step-active">
+        <label for="rfidNum" class="register_label">RFID Number</label><br>
+        <div id="devReg_rfid"></div>
+        <span class="text-danger"><?= form_error('rfidNum') ?></span>
+
+        <label for="tap-rfid" class="register_label">Tap your RFID</label><br>
+
+        <img src="<?= base_url('./assets/pictures/rfid.png'); ?>" height="150px"  alt="rfid" class="rfid-img">
+
+        <div class="reg-div">
+            <a href="#" class="btn btn-next" id="btn-next">NEXT</a>
+        </div>
+
+        
+
+      </div>
+
+      <div class="form-step">
         <div class="row">
           <div class="col">
             <label for="uniquenum" class="register_label">Device Unique Number</label><br>
@@ -33,7 +51,7 @@
             <input type="text" id="model" name="model"><br>
             <span class="text-danger"><?= form_error('model') ?></span>
 
-            <label for="roles" class="register_label">Allowed Roles</label><br>
+            <label for="roles" class="register_label">Allowed Role</label><br>
             <select name="roles" id="roles">
               <option value="Administrator">Administrator</option>
               <option value="Employee">Employee</option>
@@ -52,35 +70,34 @@
             <textarea rows="1" cols="50" wrap="physical" id="specs" name="specs"></textarea><br>
             <span class="text-danger"><?= form_error('specs') ?></span>
 
+            <label for="category" class="register_label">Category</label><br>
+            <select name="category" id="roles">
+              <option value="Specialized">Specialized</option>
+              <option value="Networking">Networking</option>
+              <option value="Peripherals">Peripherals</option>
+              <option value="Output">Output</option>
+              <option value="Processing">Processing</option>
+            </select><br>
+            <span class="text-danger"><?= form_error('category') ?></span>
+
             <label for="emp-img" class="register_label">Device Image</label><br>
             <input type="file" id="upload" name="device_image" hidden />
             <label for="upload" class="upload-btn">Upload image </label>
             <span class="text-danger" id="file-chosen"><?= form_error('device_image') ?></span>
           </div>
 
-          <div class="reg-div">
-            <a href="#" class="btn btn-next" id="btn-next">NEXT</a>
-          </div>
 
-        </div>
-
-      </div>
-
-      <div class="form-step">
-        <label for="rfid-num" class="register_label">RFID Number</label><br>
-        <input type="text" id="rfid-num" name="rfid-num"><br>
-        <span class="text-danger"><?= form_error('rfid-num') ?></span>
-
-        <label for="tap-rfid" class="register_label">Tap your RFID</label><br>
-        <textarea rows="1" cols="50" wrap="physical" id="tap-rfid" name="tap-rfid"></textarea><br>
-        <span class="text-danger"><?= form_error('tap-rfid') ?></span>
-
-        <div class="btns-group">
+          <div class="btns-group">
           <a href="#" class="btn btn-prev" id="btn-prev">PREVIOUS</a>
           <input type="submit" class="btn-reg" id="btn-reg" name="reg-dev" value="REGISTER DEVICE">
         </div>
+          
+
+        </div>
 
       </div>
+
+      
       <?= form_close(); ?>
     </div>
 
@@ -139,4 +156,16 @@
       ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
   }
 
+</script>
+<script>
+    //Ajax Function
+    $(document).ready(function(){
+        refreshRfid();
+    });
+
+    function refreshRfid(){
+        $("#devReg_rfid").load("<?php echo base_url('Admin/devReg_rfid')?>", function(){
+            setTimeout(refreshRfid, 2000);
+        });
+    }
 </script>

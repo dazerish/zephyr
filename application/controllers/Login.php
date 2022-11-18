@@ -156,27 +156,6 @@ class Login extends CI_Controller{
         redirect('Login');
     }
 
-
-    // public function test() {
-
-    //     if (isset($_GET['card_uid']) && isset($_GET['device_token'])) {
-    
-    //         $card_uid = $_GET['card_uid'];
-    //         $device_uid = $_GET['device_token'];
-
-    //         $this->session->set_flashdata('card_uid', $card_uid);
-
-    //         echo 'Success';
-    //     } else {
-    //         echo 'Failed';
-    //     }
-    // }
-
-    // public function test1() {
-
-    //     $card_uid = $this->session->flashdata('message');
-    //     echo $card_uid;
-    // }
 }
 
 

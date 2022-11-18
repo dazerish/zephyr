@@ -45,3 +45,14 @@ function updateProgressbar() {
   progress.style.width =
     ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
 }
+
+
+var btn = document.getElementById('tog-btn')
+
+function leftClick() {
+	btn.style.left = '0'
+}
+
+function rightClick() {
+	btn.style.left = '125px'
+}

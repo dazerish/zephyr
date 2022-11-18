@@ -1,5 +1,10 @@
 <div class="user-container">
 
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
     <h1 class="page-title"><b>View Device Masterlist</b></h1>
     <span class="user-count"><?= $total; ?> Devices</span>
 
@@ -69,6 +74,7 @@
                                     class="device-pic"
                                     src="<?= base_url('./assets/device_image/') . $device->dev_image; ?>"
                                     alt="device-pic"
+                                    onerror="this.onerror=null; this.src='<?= base_url('./assets/pictures/icons/dev-ph'); ?>'"
                                 <?php endif ?>
                             >
                         </td>
@@ -78,18 +84,20 @@
                         <td data-label="Status"><?=$device->cur_status; ?></td>
             
                         <td data-label="Actions" class="actions-div">
-                            <a href="<?= site_url('Admin/device_view/') . $device->id; ?>"><i class="fa fa-solid fa-eye"></i></a>
-                            <a href="<?= site_url('Admin/editDev_view/') . $device->id; ?>"><i class="fas fa-edit" id="edit-btn"></i></a>
+                            <a href="<?= site_url('Admin/device_view/') . $device->id; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View device details"><i class="fa fa-solid fa-eye"></i></a>
+                            <a href="<?= site_url('Admin/editDev_view/') . $device->id; ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit device details"><i class="fas fa-edit" id="edit-btn"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    
+
     <div class="pagination-div">
         <?= $this->pagination->create_links() ?>
     </div>
+
+    
     
 </div>
 

@@ -10,7 +10,8 @@
             <div class="login_box">
                 <div class="login_container">
 
-                    <h3 class="login_header">Sign in your Calibr8 Account</h3>    
+                    <h3 class="login_header">Sign in your Calibr8 Account</h3>
+                    <p class="login_subheader">Enter your credentials to access your account.</p>
 
                     <?= form_open('Login/login_validate'); ?>
                         <?php if($this->session->has_userdata('error')): ?>

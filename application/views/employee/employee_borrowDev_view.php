@@ -14,7 +14,7 @@
         <div class="search-box">
             <?= form_open_multipart('Employee/search_BorrowableDev');?>
             <div class="search">
-                <input type="text" class="searchTerm" name="searchTerm" placeholder="Search for a device...">
+                <input type="text" id="searchTerm" class="searchTerm" name="searchTerm" placeholder="Search for a device...">
                 <button type="submit" class="searchButton" name="search">
                     <i class="fa fa-search"></i>
                 </button>
@@ -49,11 +49,10 @@
                 <option value="Removed">Removed</option>
             </select>
 
-            <a href="<?= site_url('Employee'); ?>" class="clear-filter"><u>Clear All</u></a>
+            <a href="<?= site_url('Employee'); ?>"><u>Clear All</u></a>
         </div>
 
         <?= form_close(); ?>
-
 
     </div>
 
@@ -105,5 +104,8 @@
         </table>
     </div>
 
-    <?= $this->pagination->create_links() ?>
+    <div class="pagination-div">
+        <?= $this->pagination->create_links(); ?>
+    </div>
+
 </div>

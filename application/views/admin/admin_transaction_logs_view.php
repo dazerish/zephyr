@@ -20,7 +20,8 @@
                     <th scope="col">Device Name</th>
                     <th scope="col">Borrower</th>
                     <th scope="col">Reserved Date</th>
-                    <th scope="col">Return Date</th>           
+                    <th scope="col">Return Date</th>
+                    <th scope="col">Timestamp</th>          
                 </tr>
             </thead>
 
@@ -33,13 +34,15 @@
                         <td data-label="Device Name"><?= $transaction->borrowedDev_name; ?></td>
                         <td data-label="Borrower"><?= $transaction->borrower; ?></td>
                         <td data-label="Reserved Date"><?= $transaction->decision_time; ?></td>
-                        <td data-label="Return Date"><?= $transaction->return_date; ?></td> 
+                        <td data-label="Return Date"><?= $transaction->return_date; ?></td>
+                        <td data-label="Timestamp"><?= $transaction->request_time; ?></td>  
                     </tr>
                 <?php endforeach; ?> 
             </tbody>
         </table>
     </div>
     
-
-    <?= $this->pagination->create_links(); ?>
+    <div class="pagination-div">
+        <?= $this->pagination->create_links(); ?>
+    </div>
 </div>

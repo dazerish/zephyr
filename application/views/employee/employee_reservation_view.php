@@ -48,8 +48,8 @@
                 <span class="text-danger"><?= form_error('reservation_date'); ?></span>  
 
                 <div class="btn-grp">
-                    <button type="submit" class="cancel-btn" name="cancel-button">CANCEL</button>
-                    <button type="submit" class="reserve-btn" name="borrow-device">BORROW DEVICE</button>
+                    <button type="submit" class="cancel-btn" name="cancel-button">Cancel</button>
+                    <button type="submit" class="reserve-btn" name="borrow-device">Borrow Device</button>
                 </div>
                 <?= form_close(); ?>
             </div>
@@ -58,3 +58,5 @@
     </div>
 
 </section>
+
+
