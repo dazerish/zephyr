@@ -380,7 +380,7 @@
                 $unique_num = $this->input->post('unique_num');
                 $dev_status = $this->input->post('device_status');
                 // $borrower = $this->input->post('borrower');
-
+                //Change status if ever
 
                 if($dev_status == 'Lost') {
                     $trans_info = array(
@@ -555,6 +555,31 @@
                     echo json_encode($response);
                 }
 
+            }
+        }
+
+        //Notification API 
+        public function notif_status() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->get_notif_status();
+                echo json_encode($response);
+            }
+        }
+        public function upd_notif_status() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $trans_id = $this->input->post('trans-id');
+                $notif_status = array(
+                    'notif_status' => 1
+                );
+
+                $this->Sample_model->upd_notif_status($trans_info, $trans_id);
+                echo json_encode(['message' => TRUE]);
             }
         }
     }
