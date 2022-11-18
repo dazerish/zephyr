@@ -574,12 +574,16 @@
 
             if(isset($token)) {
                 $trans_id = $this->input->post('trans-id');
-                $notif_status = array(
-                    'notif_status' => 1
-                );
+                $button = $this->input->post('button');
 
-                $this->Sample_model->upd_notif_status($trans_info, $trans_id);
-                echo json_encode(['message' => TRUE]);
+                if(isset($button)) {
+                    $notif_status = array(
+                        'notif_status' => 1
+                    );
+
+                    $this->Sample_model->upd_notif_status($trans_info, $trans_id);
+                    echo json_encode(['message' => TRUE]);
+                }
             }
         }
     }
