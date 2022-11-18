@@ -118,7 +118,7 @@
             return $query->result_array();
         }
         public function upd_notif_status($notif_status, $trans_id) {
-            $this->db->update('transaction', $trans_info, ['transaction_id' => $trans_id]);
+            $this->db->update('transaction', $notif_status, ['transaction_id' => $trans_id]);
         }
     }
 ?>
