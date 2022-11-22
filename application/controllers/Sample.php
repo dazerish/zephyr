@@ -586,5 +586,30 @@
                 }
             }
         }
+
+
+
+        //Employee Side (Borrowable Device List)
+        public function emp_borrowDev_list() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->emp_borrowable_list();
+                echo json_encode($response);
+            }
+        }
+
+
+        //Executive Side (Borrowable Device List)
+        public function exec_borrowDev_list() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->exec_borrowable_list();
+                echo json_encode($response);
+            }
+        }
     }
 ?>

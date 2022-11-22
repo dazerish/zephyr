@@ -120,5 +120,20 @@
         public function upd_notif_status($notif_status, $trans_id) {
             $this->db->update('transaction', $notif_status, ['transaction_id' => $trans_id]);
         }
+
+
+        //Employee Borrowable Device List
+        public function emp_borrowable_list() {
+            $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Employee']);
+            return $query->result_array();
+        }
+
+
+        //Executive Borrowable Device List
+        public function exec_borrowable_list() {
+            $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Executive']);
+            return $query->result_array();
+        }
+
     }
 ?>
