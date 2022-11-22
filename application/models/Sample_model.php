@@ -48,6 +48,12 @@
             $query = $this->db->get_where('devices', ['category' => 'Processing'])->result_array();
             return $query;
         }
+        
+        //Display Devices - Employee
+        public function emp_display_dev() {
+            $query = $this->db->get_where('devices', ['allowed_roles' => 'Employee']);
+            return $query->result_array();
+        }
 
         //Locaiton API
         public function send_devLoc($info, $unique_num) {

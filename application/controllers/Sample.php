@@ -207,6 +207,17 @@
             }
         }
 
+        //Display Devices - Employe
+        public function emp_display_dev() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->emp_display_dev();
+                echo json_encode($response);
+            }
+        }
+
 
         //Borrow API
         public function set_reserveDate() {
