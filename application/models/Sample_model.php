@@ -144,7 +144,7 @@
             return $query->result_array();
         }
         public function get_exec_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Approved','Deployed','Overdue')";
+            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Deployed','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
