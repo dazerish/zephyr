@@ -62,7 +62,7 @@
         //Device with Lat and Long
         public function dev_lat_long() {
             $query = $this->db->get_where('devices', ['latitude' => '', 'longitude' => '']);
-            if($query->num_rows() > 0 ) {
+            if($query->num_rows() == 0 ) {
                 return $query->result_array();
             }
             return false;
