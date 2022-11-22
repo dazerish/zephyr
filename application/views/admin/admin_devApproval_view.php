@@ -27,7 +27,6 @@
         <table class="table-responsive">
             <thead>
                 <tr class="user-details">
-                    <th scope="col"></th>
                     <th scope="col">Device ID</th>
                     <th scope="col">Device Name</th>
                     <th scope="col">Borrower</th>
