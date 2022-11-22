@@ -126,7 +126,9 @@ class Employee extends CI_Controller
 
     public function set_reserveDate()
     {
-
+        $this->form_validation->set_rules('reason', 'Reason', 'required', array(
+            'required' => 'Please set a %s'
+        ));
         $this->form_validation->set_rules('reservation_date', 'Reservation Date', 'required|callback_validate_reserveDate', array(
             'required' => 'Please set a %s'
         ));
@@ -150,6 +152,7 @@ class Employee extends CI_Controller
                     'borrower' => $this->input->post('borrower'),
                     'borrowedDev_id' => $this->input->post('unique-num'),
                     'borrowedDev_name' => $dev_name,
+                    'reason' => $this->input->post('reason'),
                     'request_time' => date("Y-m-d H:i:s", strtotime('now')),
                     'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
                     'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+1 month'))
