@@ -69,6 +69,12 @@
             $query = $this->db->get('transaction')->result_array();
             return $query;
         }
+        //Admin Transaction Logs
+        public function admnin_trans_logs() {
+            $sql = "SELECT * FROM devices WHERE transaction_status IN ('Lost','Broken','Maintenance')";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
 
         //Report API
         // public function check_transaction_status($unique_num) {

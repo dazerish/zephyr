@@ -369,6 +369,16 @@
                 echo json_encode($response);
             }
         }
+        //Admin Transaction Logs
+        public function admin_trans_logs() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->admin_trans_logs();
+                echo json_encode($response);
+            }
+        }
 
 
         //Report API 
