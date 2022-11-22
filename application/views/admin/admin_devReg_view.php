@@ -53,7 +53,6 @@
 
             <label for="roles" class="register_label">Allowed Role</label><br>
             <select name="roles" id="roles">
-              <option value="Administrator">Administrator</option>
               <option value="Employee">Employee</option>
               <option value="Executive">Executive</option>
             </select><br>
