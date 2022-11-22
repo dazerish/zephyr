@@ -71,7 +71,7 @@
         }
         //Admin Transaction Logs
         public function admin_trans_logs() {
-            $sql = "SELECT * FROM devices WHERE transaction_status IN ('Lost','Broken','Maintenance')";
+            $sql = "SELECT * FROM transaction WHERE transaction_status IN ('Lost','Broken','Maintenance')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
