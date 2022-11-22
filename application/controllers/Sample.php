@@ -559,12 +559,30 @@
         }
 
         //Notification API 
-        public function notif_status() {
+        public function admin_notif_status() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
 
             if(isset($token)) {
-                $response = $this->Sample_model->get_notif_status();
+                $response = $this->Sample_model->get_admin_notif_status();
+                echo json_encode($response);
+            }
+        }
+        public function exec_notif_status() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->get_exec_notif_status();
+                echo json_encode($response);
+            }
+        }
+        public function employee_notif_status() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->get_employee_notif_status();
                 echo json_encode($response);
             }
         }
