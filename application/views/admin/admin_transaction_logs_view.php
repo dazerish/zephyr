@@ -19,6 +19,7 @@
                     <th scope="col">Device ID</th>
                     <th scope="col">Device Name</th>
                     <th scope="col">Borrower</th>
+                    <th scope="col">Reason</th>
                     <th scope="col">Reserved Date</th>
                     <th scope="col">Return Date</th>
                     <th scope="col">Timestamp</th>          
