@@ -60,12 +60,17 @@
             $this->db->update('devices', $info, ['unique_num' => $unique_num]);
         }
         //Device with Lat and Long
-        public function dev_lat_long() {
-            $query = $this->db->get_where('devices', ['latitude' => '', 'longitude' => '']);
-            if($query->num_rows() == 0 ) {
-                return $query->result_array();
-            }
-            return false;
+        public function specialized_devLatLong() {
+            $sql = "SELECT * FROM devices WHERE category = 'Specialized'
+            AND (latitude != '' AND longitude != '')";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function networking_devLatLong() {
+            $sql = "SELECT * FROM devices WHERE category = 'Networking' 
+            AND (latitude != '' AND longitude != '')";
+            $query = $this->db->query($sql);
+            return $query->result_array();
         }
 
         //Profile API

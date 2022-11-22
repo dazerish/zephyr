@@ -356,17 +356,24 @@
 
         }
 
-        //List with Lat and Long
-        public function dev_lat_long() {
+        //List with Lat and Long - Specialized
+        public function specialized_devLatLong() {
             header('Content-Type: application/json');
             $token = $this->decode_token();
 
             if(isset($token)) {
-                $response = $this->Sample_model->dev_lat_long();
+                $response = $this->Sample_model->specialized_devLatLong();
+                echo json_encode($response);
+            }
+        }
+        //List with Lat and Long - Networking
+        public function networking_devLatLong() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
 
-                if($response) {
-                    echo json_encode($response);
-                }
+            if(isset($token)) {
+                $response = $this->Sample_model->networking_devLatLong();
+                echo json_encode($response);
             }
         }
 
