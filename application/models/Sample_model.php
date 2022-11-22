@@ -114,17 +114,17 @@
 
         //Notification API 
         public function get_admin_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE transaction_status IN ('Pending','Broken','Lost','Maintenance')";
+            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Pending','Broken','Lost','Maintenance')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
         public function get_exec_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE transaction_status IN ('Approved','Deployed','Overdue')";
+            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Approved','Deployed','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
         public function get_employee_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE transaction_status IN ('Pending','Approved','Rejected','Overdue')";
+            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Pending','Approved','Rejected','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
