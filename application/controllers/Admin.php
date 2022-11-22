@@ -327,163 +327,227 @@ class Admin extends CI_Controller
         if(isset($deployed)) { //Deployed
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Deployed',
-                'prev_status' => 'Borrowed'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Deployed',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-            );
+            if($check_status->cur_status == 'Borrowed') {
+                $device_info = array(
+                    'cur_status' => 'Deployed',
+                    'prev_status' => 'Borrowed'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Deployed',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not yet approved";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($returned)) { //Returned
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Returned',
-                'prev_status' => 'Deployed'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Returned',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-            );
+            if($check_status->cur_status == 'Deployed' || $check_status->cur_status == 'Overdue') {
+                $device_info = array(
+                    'cur_status' => 'Available',
+                    'prev_status' => 'Deployed'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Returned',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not yet deployed";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($overdue)) { //Overdue
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Overdue',
-                'prev_status' => 'Deployed'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Overdue',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now'))
-            );
+            if($check_status->cur_status == 'Deployed') {
+                $device_info = array(
+                    'cur_status' => 'Overdue',
+                    'prev_status' => 'Deployed'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Overdue',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now'))
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not yet deployed";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($lost)) { //Lost
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Lost',
-                'prev_status' => 'Deployed'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Lost',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                'decision_time' => '00-00-00 00:00:00',
-                'return_date' => '00-00-00 00:00:00'
-            );
+            if($check_status->cur_status == 'Deployed') {
+                $device_info = array(
+                    'cur_status' => 'Lost',
+                    'prev_status' => 'Deployed'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Lost',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                    'decision_time' => '00-00-00 00:00:00',
+                    'return_date' => '00-00-00 00:00:00'
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not yet deployed";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($broken)) { //Broken
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Broken',
-                'prev_status' => 'Deployed'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Broken',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                'decision_time' => '00-00-00 00:00:00',
-                'return_date' => '00-00-00 00:00:00'
-            );
+            if($check_status->cur_status == 'Deployed') {
+                $device_info = array(
+                    'cur_status' => 'Broken',
+                    'prev_status' => 'Deployed'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Broken',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                    'decision_time' => '00-00-00 00:00:00',
+                    'return_date' => '00-00-00 00:00:00'
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not yet deployed";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($repaired)) { //Repaired
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Available',
-                'prev_status' => 'Maintenance'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Repaired',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                'decision_time' => '00-00-00 00:00:00',
-                'return_date' => '00-00-00 00:00:00'
-            );
+            if($check_status->cur_status == 'Maintenance') {
+                $device_info = array(
+                    'cur_status' => 'Available',
+                    'prev_status' => 'Maintenance'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Repaired',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                    'decision_time' => '00-00-00 00:00:00',
+                    'return_date' => '00-00-00 00:00:00'
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not in maintenance";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($recovered)) { //Recovered
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Available',
-                'prev_status' => 'Lost'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Recovered',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                'decision_time' => '00-00-00 00:00:00',
-                'return_date' => '00-00-00 00:00:00'
-            );
+            if($check_status->cur_status == 'Lost') {
+                $device_info = array(
+                    'cur_status' => 'Available',
+                    'prev_status' => 'Lost'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Recovered',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                    'decision_time' => '00-00-00 00:00:00',
+                    'return_date' => '00-00-00 00:00:00'
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not lost";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($maintenance)) { //Maintenance
             $id = $this->input->post('dev-id');
             $unique_num = $this->input->post('unique_num');
-            $device_info = array(
-                'cur_status' => 'Maintenance',
-                'prev_status' => 'Broken'
-            );
+            $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            $trans_info = array(
-                'transaction_status' => 'Maintenance',
-                'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                'decision_time' => '00-00-00 00:00:00',
-                'return_date' => '00-00-00 00:00:00'
-            );
+            if($check_status->cur_status == 'Broken') {
+                $device_info = array(
+                    'cur_status' => 'Maintenance',
+                    'prev_status' => 'Broken'
+                );
 
-            $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-            $updated = "Device status was updated";
-            $this->session->set_flashdata('updated', $updated);
-            $this->device_view($id);
+                $trans_info = array(
+                    'transaction_status' => 'Maintenance',
+                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                    'decision_time' => '00-00-00 00:00:00',
+                    'return_date' => '00-00-00 00:00:00'
+                );
+
+                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+                $updated = "Device status was updated";
+                $this->session->set_flashdata('updated', $updated);
+                $this->device_view($id);
+            } else {
+                $status_err = "Device is not broken";
+                $this->session->set_flashdata('status_err', $status_err);
+                $this->device_view($id);
+            }
         }
 
         if(isset($decommissioned)) { //Decommisioned

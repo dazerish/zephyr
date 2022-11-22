@@ -172,6 +172,10 @@ class Admin_model extends CI_Model
         $this->db->update('devices', $info, ['id' => $id]);
     }
 
+    public function deployed_status_check($unique_num) {
+        return $this->db->get_where('devices', ['unique_num' => $unique_num])->row();
+    }
+
     public function update_status($device_info, $trans_info, $unique_num, $id) {
         $this->db->update('devices', $device_info, ['id' => $id]);
         $this->db->update('transaction', $trans_info, ['borrowedDev_id' => $unique_num]);
