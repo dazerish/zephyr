@@ -356,6 +356,20 @@
 
         }
 
+        //List with Lat and Long
+        public function dev_lat_long() {
+            header('Content-Type: application/json');
+            $token = $this->decode_token();
+
+            if(isset($token)) {
+                $response = $this->Sample_model->dev_lat_long();
+
+                if($response) {
+                    echo json_encode($response);
+                }
+            }
+        }
+
         //Profile API
         public function transacted_dev() {
             header('Content-Type: application/json');

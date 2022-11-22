@@ -59,6 +59,14 @@
         public function send_devLoc($info, $unique_num) {
             $this->db->update('devices', $info, ['unique_num' => $unique_num]);
         }
+        //Device with Lat and Long
+        public function dev_lat_long() {
+            $query = $this->db->get_where('devices', ['latitude' => '', 'longitude' => '']);
+            if($query->num_rows() > 0 ) {
+                return $query->result_array();
+            }
+            return false;
+        }
 
         //Profile API
         public function transacted_dev($emp_name) {
