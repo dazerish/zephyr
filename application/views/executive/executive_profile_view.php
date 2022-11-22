@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="resetpw-card">
+        <div class="login_box">
             <div class="profile-deets">
                 <?= form_open('Executive/reset_password');?>
                 <h4 class="resetpw-h4" style="text-align: center; font-weight: 700;">Reset Password</h4>

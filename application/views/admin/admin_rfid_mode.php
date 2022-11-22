@@ -32,8 +32,8 @@
 
                         <td data-label="Arduino Mode">
                             <div class="action-icon">
-                                <a href="<?= site_url('Admin/arduino_registration/') .$data->id; ?>" class="ard-btn">Registration</a>
-                                <a href="<?= site_url('Admin/arduino_attendance/') .$data->id; ?>" class="ard-btn">Attendance</a>
+                                <button onclick="location.href='<?= site_url('Admin/arduino_registration/') .$data->id; ?>'" type="button" class="mode-btn">Registration</button>
+                                <button onclick="location.href='<?= site_url('Admin/arduino_attendance/') .$data->id; ?>'" type="button" class="mode-btn">Attendance</button>
                             </div>
                         </td>
                     </tr>

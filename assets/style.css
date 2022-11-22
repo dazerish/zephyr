@@ -37,7 +37,8 @@ nav a:hover {
 
 .login_logo {
     text-align: center;
-    margin-top: 10vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
 }
 
 a {
@@ -1043,7 +1044,6 @@ td i {
 @media only screen and (max-width: 768px) {
     .login_box {
       width: 350px;
-      margin: auto;
     }
 
     .action-btn-div {
@@ -1056,7 +1056,7 @@ td i {
       margin: auto;
     }
 
-    input[type=text], input[type=password], input[type=submit], #roles, textarea{
+    input[type=text], input[type=password], input[type=submit], #roles, textarea, input[type="date"]{
       width: 250px;
       text-align: center;
     }
@@ -1092,12 +1092,9 @@ td i {
       display: flex;
     }
 
-    .report-picker {
-      flex-direction: column;
-    }
-
     .report-picker .calendar input{
-      width: 350px;
+      width: 250px;
+      margin: auto;
     }
 
     #reserve_btn {
@@ -1135,6 +1132,10 @@ td i {
       width: 180px;
     }
 
+    .device-pic {
+      height: 80px;
+    }
+    
 }
 
 
@@ -1165,7 +1166,7 @@ td i {
   margin-top: 20px;
 }
 
-.action-btn, .ard-btn{
+.action-btn, .mode-btn{
   padding: 10px;
   border: 2px solid #c63f18;
   border-radius: 15px;
@@ -1174,10 +1175,14 @@ td i {
 }
 
  
-.action-btn:hover, .ard-btn:hover {
+.action-btn:hover, .mode-btn:hover {
   background-color: #c63f18;
   color: white;
 }
+
+
+
+
 
 /*toggle btn style*/
 
