@@ -43,7 +43,7 @@
                                 <?php endif?>
                             >
                         </td>
-                        <td class="emp-name-bold" data-label="Device Image"><?=$employee->emp_name; ?></td>
+                        <td class="emp-name-bold" data-label="Employee Image"><?=$employee->emp_name; ?></td>
                         <td data-label="ID"><?=$employee->emp_id; ?></td>
                         <td data-label="Role"><?=ucfirst($employee->emp_role); ?></td>
                         <td data-label="Direct Superior"><?=$employee->superior; ?></td>

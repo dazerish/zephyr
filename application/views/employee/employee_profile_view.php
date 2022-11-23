@@ -7,7 +7,7 @@
                 <h4 class="profile-name"><?= $employee->emp_name; ?></h4>
                 <div class="profile-details">
                     <p class="profile-p"><b>Employee ID:</b> <?= $employee->emp_id; ?></p>
-                    <p class="profile-p"><b>Employee:</b> <?= ucfirst($employee->emp_role); ?></p>
+                    <p class="profile-p"><b>Employee Role:</b> <?= ucfirst($employee->emp_role); ?></p>
                     <p class="profile-p"><b>Direct Superior:</b> <?= $employee->superior; ?></p>
                 </div>
             </div>

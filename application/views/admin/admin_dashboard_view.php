@@ -79,6 +79,7 @@
         </div>
 
         <div class="pie-container">
+            <h4 class="pie-title">Distribution Per Device Category</h4>
             <div id="device_types_pie_div"></div>
             
         </div>
