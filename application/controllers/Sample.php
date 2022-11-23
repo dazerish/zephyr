@@ -425,6 +425,7 @@
             if(isset($token)) {
                 $unique_num = $this->input->post('unique_num');
                 $dev_status = $this->input->post('device_status');
+                $reason = $this->input->post('reason');
                 // $borrower = $this->input->post('borrower');
                 //Change status if ever
 
@@ -432,6 +433,7 @@
                     $trans_info = array(
                         'transaction_status' => 'Lost',
                         'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'reason' => $reason,
                         'decision_time' => '00-00-00 00:00:00',
                         'return_date' => '00-00-00 00:00:00'
                     );
@@ -448,6 +450,7 @@
                     $trans_info = array(
                         'transaction_status' => 'Broken',
                         'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'reason' => $reason,
                         'decision_time' => '00-00-00 00:00:00',
                         'return_date' => '00-00-00 00:00:00'
                     );
@@ -464,6 +467,7 @@
                     $trans_info = array(
                         'transaction_status' => 'Maintenance',
                         'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+                        'reason' => $reason,
                         'decision_time' => '00-00-00 00:00:00',
                         'return_date' => '00-00-00 00:00:00'
                     );
@@ -619,7 +623,8 @@
             $token = $this->decode_token();
 
             if(isset($token)) {
-                $response = $this->Sample_model->get_exec_notif_status();
+                $emp_name = $this->input->post('emp_name');
+                $response = $this->Sample_model->get_exec_notif_status($emp_name);
                 echo json_encode($response);
             }
         }
@@ -628,7 +633,8 @@
             $token = $this->decode_token();
 
             if(isset($token)) {
-                $response = $this->Sample_model->get_employee_notif_status();
+                $emp_name = $this->input->post('emp_name');
+                $response = $this->Sample_model->get_employee_notif_status($emp_name);
                 echo json_encode($response);
             }
         }

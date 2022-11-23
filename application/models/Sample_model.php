@@ -21,13 +21,13 @@
 
         //Display Devices under Specialized Category 
         public function display_specialized() {
-            $query = $this->db->get_where('devices', ['category' => 'Specialized'])->result_array();
+            $query = $this->db->get_where('devices', ['category' => 'Specialized', 'cur_status' => 'Approved'])->result_array();
             return $query;
         }
 
         //Display Devices under Networking Category 
         public function display_networking() {
-            $query = $this->db->get_where('devices', ['category' => 'Networking'])->result_array();
+            $query = $this->db->get_where('devices', ['category' => 'Networking', 'cur_status' => 'Approved'])->result_array();
             return $query;
         }
 
@@ -77,7 +77,7 @@
         public function transacted_dev($emp_name) {
             // return $this->db->get_where('transaction', ['transaction_status' => 'Approved','borrower' => $emp_name])->result();
             $sql = "SELECT * FROM transaction 
-            WHERE borrower = '$emp_name' AND transaction_status IN ('Approved','Deployed','Lost','Broken','Maintenance')
+            WHERE borrower = '$emp_name' AND transaction_status = 'Deployed'
             ORDER BY transaction_id DESC LIMIT 5";
             $query = $this->db->query($sql);
             return $query->result_array();
@@ -85,8 +85,9 @@
 
         //Transaction Logs API
         public function transaction_logs() {
-            $query = $this->db->get('transaction')->result_array();
-            return $query;
+            $sql = "SELECT * FROM transaction WHERE transaction_status IN ('Pending', 'Approved', 'Rejected')";
+            $query = $this->db->query($sql);
+            return $query->result_array();
         }
         //Admin Transaction Logs
         public function admin_trans_logs() {
@@ -143,13 +144,13 @@
             $query = $this->db->query($sql);
             return $query->result_array();
         }
-        public function get_exec_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Deployed','Overdue')";
+        public function get_exec_notif_status($emp_name) {
+            $sql = "SELECT * FROM transaction WHERE (borrower = $emp_name AND notif_status = 0) AND transaction_status IN ('Deployed','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
-        public function get_employee_notif_status() {
-            $sql = "SELECT * FROM transaction WHERE notif_status = 0 AND transaction_status IN ('Pending','Approved','Rejected','Overdue')";
+        public function get_employee_notif_status($emp_name) {
+            $sql = "SELECT * FROM transaction WHERE (borrower = $emp_name AND notif_status = 0) AND transaction_status IN ('Pending','Approved','Rejected','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
