@@ -145,12 +145,12 @@
             return $query->result_array();
         }
         public function get_exec_notif_status($emp_name) {
-            $sql = "SELECT * FROM transaction WHERE (borrower = $emp_name AND notif_status = 0) AND transaction_status IN ('Deployed','Overdue')";
+            $sql = "SELECT * FROM transaction WHERE (borrower = '$emp_name' AND notif_status = 0) AND transaction_status IN ('Deployed','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
         public function get_employee_notif_status($emp_name) {
-            $sql = "SELECT * FROM transaction WHERE (borrower = $emp_name AND notif_status = 0) AND transaction_status IN ('Pending','Approved','Rejected','Overdue')";
+            $sql = "SELECT * FROM transaction WHERE (borrower = '$emp_name' AND notif_status = 0) AND transaction_status IN ('Pending','Approved','Rejected','Overdue')";
             $query = $this->db->query($sql);
             return $query->result_array();
         }
