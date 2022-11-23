@@ -21,13 +21,13 @@
 
         //Display Devices under Specialized Category 
         public function display_specialized() {
-            $query = $this->db->get_where('devices', ['category' => 'Specialized', 'cur_status' => 'Approved'])->result_array();
+            $query = $this->db->get_where('devices', ['category' => 'Specialized', 'cur_status' => 'Borrowed'])->result_array();
             return $query;
         }
 
         //Display Devices under Networking Category 
         public function display_networking() {
-            $query = $this->db->get_where('devices', ['category' => 'Networking', 'cur_status' => 'Approved'])->result_array();
+            $query = $this->db->get_where('devices', ['category' => 'Networking', 'cur_status' => 'Borrowed'])->result_array();
             return $query;
         }
 
