@@ -159,8 +159,8 @@ class Executive extends CI_Controller
                     'borrowedDev_name' => $dev_name,
                     'reason' => $this->input->post('reason'),
                     'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                    'decision_time' => date("Y-m-d H:i:s", strtotime($reservation_date)),
-                    'return_date' => date("Y-m-d H:i:s", strtotime($reservation_date. '+1 month'))
+                    'decision_time' => date("Y-m-d", strtotime($reservation_date)),
+                    'return_date' => date("Y-m-d", strtotime($reservation_date. '+1 month'))
                 );
 
                 //Device Status Info
@@ -186,8 +186,8 @@ class Executive extends CI_Controller
 
     public function validate_reserveDate($reservation_date) {
 
-        $startDate = date("Y-m-d H:i:s", strtotime($reservation_date));
-        $currDate = date("Y-m-d H:i:s");
+        $startDate = date("Y-m-d", strtotime($reservation_date));
+        $currDate = date("Y-m-d");
 
         if($startDate < $currDate) {
             $this->form_validation->set_message('validate_reserveDate', 'Please enter a valid date.');

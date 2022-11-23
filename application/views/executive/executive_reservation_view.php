@@ -44,7 +44,7 @@
                 <span class="text-danger"><?= form_error('reason') ?></span>
 
                 <label for="reservation-date">Pick a reservation date:</label><br>
-                <input type="datetime-local" id="reservation_date" class="date-picker" name="reservation_date">
+                <input type="date" id="reservation_date" class="date-picker" name="reservation_date">
                 <span class="text-danger"><?= form_error('reservation_date'); ?></span>  
 
                 <div class="btn-grp">
