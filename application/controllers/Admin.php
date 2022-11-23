@@ -870,7 +870,7 @@ class Admin extends CI_Controller
                     $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
 
                 }
-                $sheet1->getStyle('A:H')->getAlignment()->setHorizontal('center');
+                $sheet1->getStyle('A:I')->getAlignment()->setHorizontal('center');
                 
                 $sheet1->setCellValue('A1','Report for the date of '.$s_date.' to '.$e_date);
                 $sheet1->setCellValue('A2','Transaction ID');
