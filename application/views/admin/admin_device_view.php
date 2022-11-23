@@ -78,13 +78,14 @@
                             <button class="action-btn" name="Deployed"><i class="fas fa-share-square"></i> Deployed</button>
                             <button class="action-btn" name="Returned"><i class="fas fa-undo-alt"></i></i> Returned</button>
                             <button class="action-btn" name="Overdue"><i class="fas fa-clock"></i> Overdue</button>
+                            <button class="action-btn" name="Repaired"><i class="fas fa-thumbs-up"></i> Repaired</button>
                             <!-- <button class="action-btn" name="Lost"><i class="fas fa-question"></i> Lost</button>
                             <button class="action-btn" name="Broken"><i class="fas fa-bolt"></i> Broken</button> -->
                         </div>
                    
 
                         <div class="action-grp">
-                            <button class="action-btn" name="Repaired"><i class="fas fa-thumbs-up"></i> Repaired</button>
+                            <!-- <button class="action-btn" name="Repaired"><i class="fas fa-thumbs-up"></i> Repaired</button> -->
                             <button class="action-btn" name="Recovered"> <i class="fas fa-recycle"></i> Recovered</button>
                             <button class="action-btn" name="Maintenance"><i class="fas fa-tools"></i> Maintenance</button>
                             <button class="action-btn" name="Decommissioned"><i class="fas fa-ban"></i> Decommissioned</button>
