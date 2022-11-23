@@ -405,63 +405,63 @@ class Admin extends CI_Controller
             }
         }
 
-        if(isset($lost)) { //Lost
-            $id = $this->input->post('dev-id');
-            $unique_num = $this->input->post('unique_num');
-            $check_status = $this->Admin_model->deployed_status_check($unique_num);
+        // if(isset($lost)) { //Lost
+        //     $id = $this->input->post('dev-id');
+        //     $unique_num = $this->input->post('unique_num');
+        //     $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            if($check_status->cur_status == 'Deployed') {
-                $device_info = array(
-                    'cur_status' => 'Lost',
-                    'prev_status' => 'Deployed'
-                );
+        //     if($check_status->cur_status == 'Deployed') {
+        //         $device_info = array(
+        //             'cur_status' => 'Lost',
+        //             'prev_status' => 'Deployed'
+        //         );
 
-                $trans_info = array(
-                    'transaction_status' => 'Lost',
-                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                    'decision_time' => '00-00-00 00:00:00',
-                    'return_date' => '00-00-00 00:00:00'
-                );
+        //         $trans_info = array(
+        //             'transaction_status' => 'Lost',
+        //             'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+        //             'decision_time' => '00-00-00 00:00:00',
+        //             'return_date' => '00-00-00 00:00:00'
+        //         );
 
-                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-                $updated = "Device status was updated";
-                $this->session->set_flashdata('updated', $updated);
-                $this->device_view($id);
-            } else {
-                $status_err = "Device is not yet deployed";
-                $this->session->set_flashdata('status_err', $status_err);
-                $this->device_view($id);
-            }
-        }
+        //         $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+        //         $updated = "Device status was updated";
+        //         $this->session->set_flashdata('updated', $updated);
+        //         $this->device_view($id);
+        //     } else {
+        //         $status_err = "Device is not yet deployed";
+        //         $this->session->set_flashdata('status_err', $status_err);
+        //         $this->device_view($id);
+        //     }
+        // }
 
-        if(isset($broken)) { //Broken
-            $id = $this->input->post('dev-id');
-            $unique_num = $this->input->post('unique_num');
-            $check_status = $this->Admin_model->deployed_status_check($unique_num);
+        // if(isset($broken)) { //Broken
+        //     $id = $this->input->post('dev-id');
+        //     $unique_num = $this->input->post('unique_num');
+        //     $check_status = $this->Admin_model->deployed_status_check($unique_num);
 
-            if($check_status->cur_status == 'Deployed') {
-                $device_info = array(
-                    'cur_status' => 'Broken',
-                    'prev_status' => 'Deployed'
-                );
+        //     if($check_status->cur_status == 'Deployed') {
+        //         $device_info = array(
+        //             'cur_status' => 'Broken',
+        //             'prev_status' => 'Deployed'
+        //         );
 
-                $trans_info = array(
-                    'transaction_status' => 'Broken',
-                    'request_time' => date("Y-m-d H:i:s", strtotime('now')),
-                    'decision_time' => '00-00-00 00:00:00',
-                    'return_date' => '00-00-00 00:00:00'
-                );
+        //         $trans_info = array(
+        //             'transaction_status' => 'Broken',
+        //             'request_time' => date("Y-m-d H:i:s", strtotime('now')),
+        //             'decision_time' => '00-00-00 00:00:00',
+        //             'return_date' => '00-00-00 00:00:00'
+        //         );
 
-                $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
-                $updated = "Device status was updated";
-                $this->session->set_flashdata('updated', $updated);
-                $this->device_view($id);
-            } else {
-                $status_err = "Device is not yet deployed";
-                $this->session->set_flashdata('status_err', $status_err);
-                $this->device_view($id);
-            }
-        }
+        //         $this->Admin_model->update_status($device_info, $trans_info, $unique_num, $id);
+        //         $updated = "Device status was updated";
+        //         $this->session->set_flashdata('updated', $updated);
+        //         $this->device_view($id);
+        //     } else {
+        //         $status_err = "Device is not yet deployed";
+        //         $this->session->set_flashdata('status_err', $status_err);
+        //         $this->device_view($id);
+        //     }
+        // }
 
         if(isset($repaired)) { //Repaired
             $id = $this->input->post('dev-id');

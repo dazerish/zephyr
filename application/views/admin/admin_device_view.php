@@ -78,8 +78,8 @@
                             <button class="action-btn" name="Deployed"><i class="fas fa-share-square"></i> Deployed</button>
                             <button class="action-btn" name="Returned"><i class="fas fa-undo-alt"></i></i> Returned</button>
                             <button class="action-btn" name="Overdue"><i class="fas fa-clock"></i> Overdue</button>
-                            <button class="action-btn" name="Lost"><i class="fas fa-question"></i> Lost</button>
-                            <button class="action-btn" name="Broken"><i class="fas fa-bolt"></i> Broken</button>
+                            <!-- <button class="action-btn" name="Lost"><i class="fas fa-question"></i> Lost</button>
+                            <button class="action-btn" name="Broken"><i class="fas fa-bolt"></i> Broken</button> -->
                         </div>
                    
 
