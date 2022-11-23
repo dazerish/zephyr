@@ -866,7 +866,7 @@ class Admin extends CI_Controller
                 $spreadsheet = new Spreadsheet();
                 $sheet1 = $spreadsheet->setActiveSheetIndex(0)->setTitle('Transaction Logs');
                 
-                foreach(range('A','H') as $coulumID) {
+                foreach(range('A','I') as $coulumID) {
                     $spreadsheet->getActiveSheet()->getColumnDimension($coulumID)->setAutosize(true);
 
                 }
@@ -878,9 +878,10 @@ class Admin extends CI_Controller
                 $sheet1->setCellValue('C2','Borrower');
                 $sheet1->setCellValue('D2','Device ID');
                 $sheet1->setCellValue('E2','Device Name');
-                $sheet1->setCellValue('F2','Reserved Date');
-                $sheet1->setCellValue('G2','Return Date');
-                $sheet1->setCellValue('H2','Timestamp');
+                $sheet1->setCellValue('F2','Reason');
+                $sheet1->setCellValue('G2','Reserved Date');
+                $sheet1->setCellValue('H2','Return Date');
+                $sheet1->setCellValue('I2','Timestamp');
 
                 $system_data = $this->Admin_model->fetch_data($start_date, $end_date);
                 $x=3; //start from row 2
@@ -891,9 +892,10 @@ class Admin extends CI_Controller
                     $sheet1->setCellValue('C'.$x, $row['borrower']);
                     $sheet1->setCellValue('D'.$x, $row['borrowedDev_id']);
                     $sheet1->setCellValue('E'.$x, $row['borrowedDev_name']);
-                    $sheet1->setCellValue('F'.$x, $row['decision_time']);
-                    $sheet1->setCellValue('G'.$x, $row['return_date']);
-                    $sheet1->setCellValue('H'.$x, $row['request_time']);
+                    $sheet1->setCellValue('F'.$x, $row['reason']);
+                    $sheet1->setCellValue('G'.$x, $row['decision_time']);
+                    $sheet1->setCellValue('H'.$x, $row['return_date']);
+                    $sheet1->setCellValue('I'.$x, $row['request_time']);
                     $x++;
                 }
 
