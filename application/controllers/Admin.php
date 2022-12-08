@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// require 'vendor/autoload.php';
-// use PhpOffice\PhpSpreadsheet\Spreadsheet;
-// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends CI_Controller
 {
@@ -1034,10 +1034,10 @@ class Admin extends CI_Controller
         if($rfid_num) {
             foreach($rfid_num as $key) {
                 $rfid = $key->rfid;
-                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."' readonly><br>";
             }
         } else {
-            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+            echo "<input type='text' id='rfid_num' name='rfidNum' value='' readonly><br>";
         }
     }
 
@@ -1141,10 +1141,10 @@ class Admin extends CI_Controller
         if($rfid_num) {
             foreach($rfid_num as $key) {
                 $rfid = $key->rfid;
-                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."' readonly><br>";
             }
         } else {
-            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+            echo "<input type='text' id='rfid_num' name='rfidNum' value='' readonly><br>";
         }
     }
 
@@ -1161,7 +1161,7 @@ class Admin extends CI_Controller
         $this->load->library('upload', $image_config);
         $this->upload->initialize($image_config);
 
-        $this->form_validation->set_rules('uniquenum', 'Device Unique Number', 'required|alpha_numeric|is_unique[devices.unique_num]', array(
+        $this->form_validation->set_rules('uniquenum', 'Device Serial Number', 'required|alpha_numeric|is_unique[devices.unique_num]', array(
             'required' => '%s is required.',
             'alpha_numeric' => '%s should only contain alpha numeric characters.',
             'is_unique' => 'This %s is already registered.'
@@ -1169,11 +1169,10 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('devicename', 'Device Name', 'required', array(
             'required' => '%s is required.'
         ));
-        $this->form_validation->set_rules('model', 'Device Model', 'required|alpha_numeric_spaces', array(
-            'required' => '%s is required.',
-            'alpha_numeric' => '%s should only contain alpha numeric characters.'
+        $this->form_validation->set_rules('model', 'Device Model', 'required', array(
+            'required' => '%s is required.'
         ));
-        $this->form_validation->set_rules('roles', 'Allowed Roles', 'required', array(
+        $this->form_validation->set_rules('roles[]', 'Allowed Roles', 'required', array(
             'required' => 'Please set %s',
         ));
         $this->form_validation->set_rules('manuf', 'Manufacturer', 'required|alpha_numeric', array(
@@ -1205,13 +1204,18 @@ class Admin extends CI_Controller
             $register = $this->input->post('reg-dev');
 
             if (isset($register)) {
-                $rfid = $this->input->post('rfidNum'); //Check if still needed
+                $rfid = $this->input->post('rfidNum');
+                $roles = $this->input->post('roles');
+                $roleVal = "";
+                foreach($roles as $role) {
+                    $roleVal .= $role.'<br>';
+                }
 
                 $info = array(
                     'unique_num' => $this->input->post('uniquenum'),
                     'dev_name' => $this->input->post('devicename'),
                     'dev_model' => $this->input->post('model'),
-                    'allowed_roles' => $this->input->post('roles'),
+                    'allowed_roles' => $roleVal,
                     'manufacturer' => $this->input->post('manuf'),
                     'specs' => nl2br($this->input->post('specs')),
                     'category' => $this->input->post('category'),

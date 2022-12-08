@@ -41,7 +41,7 @@
       <div class="form-step">
         <div class="row">
           <div class="col">
-            <label for="uniquenum" class="register_label">Device Unique Number</label><br>
+            <label for="uniquenum" class="register_label">Device Serial Number</label><br>
             <input type="text" id="uniquenum" name="uniquenum"><br>
             <span class="text-danger"><?= form_error('uniquenum') ?></span>
 
@@ -49,17 +49,32 @@
             <input type="text" id="devicename" name="devicename"><br>
             <span class="text-danger"><?= form_error('devicename') ?></span>
 
-            <label for="model" class="register_label">Device Type</label><br>
-            <input type="text" id="model" name="model"><br>
+            <label for="model" class="register_label">Device Type</label><br> <!-- Device Model -->
+            <select name="model" id="roles">
+              <option value="Server Rack">Server Rack</option>
+              <option value="Gateway">Gateway</option>
+              <option value="VR Headset">VR Headset</option>
+              <option value="Router">Router</option>
+              <option value="Modem">Modem</option>
+              <option value="Switch">Switch</option>
+              <option value="Power Cable">Power Cable</option>
+              <option value="RJ45">RJ45</option>
+              <option value="HDMI Cable">HDMI Cable</option>
+              <option value="VGA Cable">VGA Cable</option>
+              <option value="Mouse">Mouse</option>
+              <option value="Keyboard">Keyboard</option>
+              <option value="Monitor">Monitor</option>
+              <option value="Laptop">Laptop</option>
+            </select><br>
             <span class="text-danger"><?= form_error('model') ?></span>
 
             <label for="roles" class="register_label">Allowed Roles</label><br>
-            <input type="checkbox" id="role1" name="role1" value="Executive">
-            <label for="role1"> Executive</label><br>
-            <input type="checkbox" id="role2" name="role2" value="Employee">
-            <label for="role2"> Employee</label>
-            <br>
-            <span class="text-danger"><?= form_error('roles') ?></span>
+              <input type="checkbox" id="role1" name="roles[]" value="Executive">
+              <label for="role1"> Executive</label><br>
+              <input type="checkbox" id="role2" name="roles[]" value="Employee">
+              <label for="role2"> Employee</label>
+              <br><br>
+            <span class="text-danger"><?= form_error('roles[]') ?></span>
 
           </div>
 
