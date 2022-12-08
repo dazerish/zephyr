@@ -21,7 +21,9 @@
 
       <div class="form-step form-step-active">
         <label for="rfidNum" class="register_label">RFID Number</label><br>
-        <div id="devReg_rfid"></div>
+        <div id="devReg_rfid">
+          
+        </div>
         <span class="text-danger"><?= form_error('rfidNum') ?></span>
 
         <label for="tap-rfid" class="register_label">Tap your RFID</label><br>
@@ -47,15 +49,16 @@
             <input type="text" id="devicename" name="devicename"><br>
             <span class="text-danger"><?= form_error('devicename') ?></span>
 
-            <label for="model" class="register_label">Device Model</label><br>
+            <label for="model" class="register_label">Device Type</label><br>
             <input type="text" id="model" name="model"><br>
             <span class="text-danger"><?= form_error('model') ?></span>
 
-            <label for="roles" class="register_label">Allowed Role</label><br>
-            <select name="roles" id="roles">
-              <option value="Employee">Employee</option>
-              <option value="Executive">Executive</option>
-            </select><br>
+            <label for="roles" class="register_label">Allowed Roles</label><br>
+            <input type="checkbox" id="role1" name="role1" value="Executive">
+            <label for="role1"> Executive</label><br>
+            <input type="checkbox" id="role2" name="role2" value="Employee">
+            <label for="role2"> Employee</label>
+            <br>
             <span class="text-danger"><?= form_error('roles') ?></span>
 
           </div>
