@@ -43,9 +43,11 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
             <!-- <label for="manufacturer">Manufacturer</label> -->
             <select name="manufacturer" id="manufacturer" class="filterGroup">
                 <option value="">Manufacturer</option>
-                <option value="Laptop">Apple</option>
-                <option value="Gateway">Dell</option>
-                <option value="Smartphone">Lenovo</option>
+                <option value="Apple">Apple</option>
+                <option value="Dell">Dell</option>
+                <option value="Occulus">Oculus</option>
+                <option value="Lenovo">Lenovo</option>
+                <option value="Asus">Asus</option>
             </select>
         
 
@@ -112,11 +114,6 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
         </table>
     </div>
 
-    <div class="pagination-div">
-        <?= $this->pagination->create_links() ?>
-    </div>
-
-    
     
 </div>
 

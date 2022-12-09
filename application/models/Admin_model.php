@@ -71,28 +71,23 @@ class Admin_model extends CI_Model
     }
 
     //View Section (Employee)
-    public function get_users_table($limit, $start, $st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT * FROM users 
-        WHERE emp_name LIKE '%$st%'
-        ORDER BY id DESC
-        LIMIT " . $start . ", " . $limit;
-        $query = $this->db->query($sql);
-        return $query->result();
-    }
-    public function get_users_count($st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT * FROM users 
-        WHERE emp_name LIKE '%$st%'
-        ORDER BY id DESC";
-        $query = $this->db->query($sql);
-        return $query->num_rows();
+    public function get_users_table($limit, $start) {
+        $this->db->limit($limit, $start);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('users')->result();
     }
     public function get_uCount()
     {
         return $this->db->count_all('users');
+    }
+    public function get_emp_table($searchTerm) {
+        $this->db->like('emp_name', $searchTerm);
+        return $this->db->get('users')->result();
+    }
+    public function total_emp() {
+        $this->db->where('registered', 1);
+        $this->db->from('users');
+        return $this->db->count_all_results();
     }
 
     public function get_emp_row($id)
@@ -121,34 +116,21 @@ class Admin_model extends CI_Model
     }
 
     //View Section (Device)
-    public function get_devices_table($limit, $start, $st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT * FROM devices 
-        WHERE (dev_name LIKE '%$st%'
-        OR unique_num LIKE '%$st%' 
-        OR dev_model LIKE '%$st%'
-        OR manufacturer LIKE '%$st%')
-        AND registered = 1  
-        LIMIT " . $start . ", " . $limit;
-        $query = $this->db->query($sql);
-        return $query->result();
+    public function get_devices_table($limit, $start) { //Device Masterlist
+        $this->db->limit($limit, $start);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('devices')->result();
     }
-    public function get_devices_count($st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT * FROM devices 
-        WHERE (dev_name LIKE '%$st%'
-        OR unique_num LIKE '%$st%'  
-        OR dev_model LIKE '%$st%'
-        OR manufacturer LIKE '%$st%')
-        AND registered = 1";
-        $query = $this->db->query($sql);
-        return $query->num_rows();
-    }
-    public function get_dCount()
+    public function get_dCount()//Device Masterlist
     {
         return $this->db->count_all('devices');
+    }
+    public function get_dev_table($searchTerm, $model, $manufacturer, $status) { //Device Masterlist - search
+        $this->db->like('dev_name', $searchTerm);
+        $this->db->like('dev_model', $model);
+        $this->db->like('manufacturer', $manufacturer);
+        $this->db->like('cur_status', $status);
+        return $this->db->get('devices')->result();
     }
     public function total_dev() {
 
@@ -353,6 +335,33 @@ class Admin_model extends CI_Model
 
     // public function get_device_count() {
     //     return $this->db->count_all('devices');
+    // }
+
+    //View Section (Device)
+    // public function get_devices_table($limit, $start, $st = NULL)
+    // {
+    //     if ($st == "NIL") $st = "";
+    //     $sql = "SELECT * FROM devices 
+    //     WHERE (dev_name LIKE '%$st%'
+    //     OR cur_status LIKE '%$st%' 
+    //     OR dev_model LIKE '%$st%'
+    //     OR manufacturer LIKE '%$st%')
+    //     AND registered = 1  
+    //     LIMIT " . $start . ", " . $limit;
+    //     $query = $this->db->query($sql);
+    //     return $query->result();
+    // }
+    // public function get_devices_count($st = NULL)
+    // {
+    //     if ($st == "NIL") $st = "";
+    //     $sql = "SELECT * FROM devices 
+    //     WHERE (dev_name LIKE '%$st%'
+    //     OR unique_num LIKE '%$st%'  
+    //     OR dev_model LIKE '%$st%'
+    //     OR manufacturer LIKE '%$st%')
+    //     AND registered = 1";
+    //     $query = $this->db->query($sql);
+    //     return $query->num_rows();
     // }
 
 

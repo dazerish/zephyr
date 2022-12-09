@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// require 'vendor/autoload.php';
-// use PhpOffice\PhpSpreadsheet\Spreadsheet;
-// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends CI_Controller
 {
@@ -73,7 +73,7 @@ class Admin extends CI_Controller
 
         $data['title'] = 'Calibr8 - Employee Masterlist';
         $data['employees'] = $this->Admin_model->get_users_table($page_config['per_page'], $page, NULL);
-        $data['total'] = $this->Admin_model->get_uCount();
+        $data['total'] = $this->Admin_model->total_emp();
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_emp_masterlist');
         $this->load->view('include/footer');
@@ -81,47 +81,18 @@ class Admin extends CI_Controller
 
     public function searchEmp()
     { //Temporary Search Function
-        $search = ($this->input->post("searchTerm")) ? $this->input->post("searchTerm") : "NIL";
-        $search = ($this->uri->segment(3)) ? $this->uri->segment(3) : $search;
+        $search = $this->input->post('search');
 
-        $page_config = array(
-            'base_url' => site_url('Admin/searchEmp/$search'),
-            'total_rows' => $this->Admin_model->get_users_count($search),
-            'num_links' => 3,
-            'per_page' => 5,
+        if(isset($search)) {
+            $searchTerm = $this->input->post("searchTerm");
 
-            'full_tag_open' => '<div class="d-flex justify-content-center"><ul class="pagination">',
-            'full_tag_close' => '</ul></div>',
-
-            'first_link' => FALSE,
-            'last_link' => FALSE,
-
-            'next_link' => '&rsaquo;',
-            'next_tag_open' => '<li class="page-item">',
-            'next_tag_close' => '</li>',
-
-            'prev_link' => '&lsaquo;',
-            'prev_tag_open' => '<li class="page-item">',
-            'prev_tag_close' => '</li>',
-
-            'cur_tag_open' => '<li class="page-item active"><span class="page-link">',
-            'cur_tag_close' => '</span></li>',
-
-            'num_tag_open' => '<li class="page-item">',
-            'num_tag_close' => '</li>',
-
-            'attributes' => ['class' => 'page-link']
-        );
-
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $this->pagination->initialize($page_config);
-
-        $data['title'] = 'Calibr8 - Employee Masterlist';
-        $data['employees'] = $this->Admin_model->get_users_table($page_config['per_page'], $page, $search);
-        $data['total'] = $this->Admin_model->get_uCount();
-        $this->load->view('include/admin_header', $data);
-        $this->load->view('admin/admin_emp_masterlist');
-        $this->load->view('include/footer');
+            $data['title'] = 'Calibr8 - Employee Masterlist';
+            $data['employees'] = $this->Admin_model->get_emp_table($searchTerm);
+            $data['total'] = $this->Admin_model->total_emp();
+            $this->load->view('include/admin_header', $data);
+            $this->load->view('admin/admin_searchEmp');
+            $this->load->view('include/footer');
+        }
     }
 
     public function employee_view($id)
@@ -250,7 +221,7 @@ class Admin extends CI_Controller
         $this->pagination->initialize($page_config);
 
         $data['title'] = 'Calibr8 - Device Masterlist';
-        $data['devices'] = $this->Admin_model->get_devices_table($page_config['per_page'], $page, NULL);
+        $data['devices'] = $this->Admin_model->get_devices_table($page_config['per_page'], $page);
         $data['total'] = $this->Admin_model->total_dev();
         $this->load->view('include/admin_header', $data);
         $this->load->view('admin/admin_dev_masterlist');
@@ -259,47 +230,21 @@ class Admin extends CI_Controller
 
     public function searchDev()
     { //Temporary Search Function
-        $search = ($this->input->post("searchTerm")) ? $this->input->post("searchTerm") : "NIL";
-        $search = ($this->uri->segment(3)) ? $this->uri->segment(3) : $search;
+        $search = $this->input->post('search');
 
-        $page_config = array(
-            'base_url' => site_url('Admin/searchDev/$search'),
-            'total_rows' => $this->Admin_model->get_devices_count($search),
-            'num_links' => 3,
-            'per_page' => 5,
+        if(isset($search)) {
+            $searchTerm = $this->input->post('searchTerm');
+            $model = $this->input->post('device-model');
+            $manufacturer = $this->input->post('manufacturer');
+            $status = $this->input->post('status');
 
-            'full_tag_open' => '<div class="d-flex justify-content-center"><ul class="pagination">',
-            'full_tag_close' => '</ul></div>',
-
-            'first_link' => FALSE,
-            'last_link' => FALSE,
-
-            'next_link' => '&rsaquo;',
-            'next_tag_open' => '<li class="page-item">',
-            'next_tag_close' => '</li>',
-
-            'prev_link' => '&lsaquo;',
-            'prev_tag_open' => '<li class="page-item">',
-            'prev_tag_close' => '</li>',
-
-            'cur_tag_open' => '<li class="page-item active"><span class="page-link">',
-            'cur_tag_close' => '</span></li>',
-
-            'num_tag_open' => '<li class="page-item">',
-            'num_tag_close' => '</li>',
-
-            'attributes' => ['class' => 'page-link']
-        );
-
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $this->pagination->initialize($page_config);
-
-        $data['title'] = 'Calibr8 - Employee Masterlist';
-        $data['devices'] = $this->Admin_model->get_devices_table($page_config['per_page'], $page, $search);
-        $data['total'] = $this->Admin_model->get_dCount();
-        $this->load->view('include/admin_header', $data);
-        $this->load->view('admin/admin_dev_masterlist');
-        $this->load->view('include/footer');
+            $data['title'] = 'Calibr8 - Employee Masterlist';
+            $data['devices'] = $this->Admin_model->get_dev_table($searchTerm, $model, $manufacturer, $status);
+            $data['total'] = $this->Admin_model->total_dev();
+            $this->load->view('include/admin_header', $data);
+            $this->load->view('admin/admin_searchDev');
+            $this->load->view('include/footer');
+        }
     }
 
     public function device_view($id)
@@ -1034,10 +979,10 @@ class Admin extends CI_Controller
         if($rfid_num) {
             foreach($rfid_num as $key) {
                 $rfid = $key->rfid;
-                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."' readonly><br>";
             }
         } else {
-            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+            echo "<input type='text' id='rfid_num' name='rfidNum' value='' readonly><br>";
         }
     }
 
@@ -1141,10 +1086,10 @@ class Admin extends CI_Controller
         if($rfid_num) {
             foreach($rfid_num as $key) {
                 $rfid = $key->rfid;
-                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."'><br>";
+                echo "<input type='text' id='rfid_num' name='rfidNum' value='".$rfid."' readonly><br>";
             }
         } else {
-            echo "<input type='text' id='rfid_num' name='rfidNum' value=''><br>";
+            echo "<input type='text' id='rfid_num' name='rfidNum' value='' readonly><br>";
         }
     }
 
@@ -1161,7 +1106,7 @@ class Admin extends CI_Controller
         $this->load->library('upload', $image_config);
         $this->upload->initialize($image_config);
 
-        $this->form_validation->set_rules('uniquenum', 'Device Unique Number', 'required|alpha_numeric|is_unique[devices.unique_num]', array(
+        $this->form_validation->set_rules('uniquenum', 'Device Serial Number', 'required|alpha_numeric|is_unique[devices.unique_num]', array(
             'required' => '%s is required.',
             'alpha_numeric' => '%s should only contain alpha numeric characters.',
             'is_unique' => 'This %s is already registered.'
@@ -1169,11 +1114,10 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('devicename', 'Device Name', 'required', array(
             'required' => '%s is required.'
         ));
-        $this->form_validation->set_rules('model', 'Device Model', 'required|alpha_numeric_spaces', array(
-            'required' => '%s is required.',
-            'alpha_numeric' => '%s should only contain alpha numeric characters.'
+        $this->form_validation->set_rules('model', 'Device Model', 'required', array(
+            'required' => '%s is required.'
         ));
-        $this->form_validation->set_rules('roles', 'Allowed Roles', 'required', array(
+        $this->form_validation->set_rules('roles[]', 'Allowed Roles', 'required', array(
             'required' => 'Please set %s',
         ));
         $this->form_validation->set_rules('manuf', 'Manufacturer', 'required|alpha_numeric', array(
@@ -1205,13 +1149,18 @@ class Admin extends CI_Controller
             $register = $this->input->post('reg-dev');
 
             if (isset($register)) {
-                $rfid = $this->input->post('rfidNum'); //Check if still needed
+                $rfid = $this->input->post('rfidNum');
+                $roles = $this->input->post('roles');
+                $roleVal = "";
+                foreach($roles as $role) {
+                    $roleVal .= $role.'<br>';
+                }
 
                 $info = array(
                     'unique_num' => $this->input->post('uniquenum'),
                     'dev_name' => $this->input->post('devicename'),
                     'dev_model' => $this->input->post('model'),
-                    'allowed_roles' => $this->input->post('roles'),
+                    'allowed_roles' => $roleVal,
                     'manufacturer' => $this->input->post('manuf'),
                     'specs' => nl2br($this->input->post('specs')),
                     'category' => $this->input->post('category'),

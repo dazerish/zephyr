@@ -24,7 +24,8 @@ class Employee_model extends CI_Model
     //Borrowable Device Masterlist - include search function
     public function borrowableDev_count()
     {
-        $this->db->where(['cur_status' => 'Available', 'allowed_roles' => 'Employee']);
+        $this->db->where(['cur_status' => 'Available']);
+        $this->db->like('allowed_roles', 'Employee');
         $this->db->from('devices');
         return $this->db->count_all_results();
     }
@@ -35,7 +36,7 @@ class Employee_model extends CI_Model
         if ($st == "NIL") $st = "";
         $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
         FROM devices
-        WHERE (cur_status = 'Available' AND allowed_roles = 'Employee')
+        WHERE (cur_status = 'Available' AND allowed_roles LIKE '%Employee%')
         AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
         GROUP BY dev_name
         HAVING COUNT(*)>0
@@ -49,7 +50,7 @@ class Employee_model extends CI_Model
         if ($st == "NIL") $st = "";
         $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
         FROM devices
-        WHERE (cur_status = 'Available' AND allowed_roles = 'Employee')
+        WHERE (cur_status = 'Available' AND allowed_roles LIKE '%Employee%')
         AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
         GROUP BY dev_name
         HAVING COUNT(*)>0";
