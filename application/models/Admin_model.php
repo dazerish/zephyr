@@ -117,6 +117,7 @@ class Admin_model extends CI_Model
 
     //View Section (Device)
     public function get_devices_table($limit, $start) { //Device Masterlist
+        $this->db->where('registered', 1);
         $this->db->limit($limit, $start);
         $this->db->order_by('id', 'DESC');
         return $this->db->get('devices')->result();
@@ -130,10 +131,10 @@ class Admin_model extends CI_Model
         $this->db->like('dev_model', $model);
         $this->db->like('manufacturer', $manufacturer);
         $this->db->like('cur_status', $status);
+        $this->db->order_by('id', 'DESC');
         return $this->db->get('devices')->result();
     }
     public function total_dev() {
-
         $this->db->where('registered', 1);
         $this->db->from('devices');
         return $this->db->count_all_results();

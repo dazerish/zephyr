@@ -31,13 +31,11 @@ class Employee_model extends CI_Model
     }
 
 
-    public function get_devModel($limit, $start, $st = NULL)
+    public function get_devModel($limit, $start)
     {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
+        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image, dev_model, manufacturer
         FROM devices
-        WHERE (cur_status = 'Available' AND allowed_roles LIKE '%Employee%')
-        AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
+        WHERE cur_status = 'Available' AND allowed_roles LIKE '%Employee%'
         GROUP BY dev_name
         HAVING COUNT(*)>0
         LIMIT $start, $limit";
@@ -45,17 +43,15 @@ class Employee_model extends CI_Model
         return $query->result();
     }
 
-    public function count_devModel($st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image
+    public function get_deviceModel($searchTerm, $model, $manufacturer) {
+        $sql = "SELECT dev_name, COUNT(dev_name) AS stock, cur_status, dev_image, dev_model, manufacturer
         FROM devices
         WHERE (cur_status = 'Available' AND allowed_roles LIKE '%Employee%')
-        AND (dev_name LIKE '%$st%' OR dev_model LIKE '%$st%')
+        AND (dev_name LIKE '%$searchTerm%' AND dev_model LIKE '%$model%' AND manufacturer LIKE '%$manufacturer%')
         GROUP BY dev_name
         HAVING COUNT(*)>0";
         $query = $this->db->query($sql);
-        return $query->num_rows();
+        return $query->result();
     }
 
     public function reserveDev($dev_name)
@@ -80,36 +76,34 @@ class Employee_model extends CI_Model
 
 
     //Device Masterlist
-    public function get_devices_table($limit, $start, $st = NULL)
-    {
-        if ($st == "NIL") $st = "";
-        $sql = "select * from devices where dev_name like '%$st%' 
-                or dev_model like '%$st%'
-                or manufacturer like '%$st%'  
-                limit " . $start . ", " . $limit;
-        $query = $this->db->query($sql);
-        return $query->result();
+    public function get_devices_table($limit, $start) { //Device Masterlist
+        $this->db->where('registered', 1);
+        $this->db->limit($limit, $start);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('devices')->result();
     }
-
-    public function get_devices_count($st = NULL)
+    public function get_dCount()
     {
-        if ($st == "NIL") $st = "";
-        $sql = "select * from devices where dev_name like '%$st%' 
-                or dev_model like '%$st%'
-                or manufacturer like '%$st%'";
-        $query = $this->db->query($sql);
-        return $query->num_rows();
+        return $this->db->count_all('devices');
     }
-
+    public function get_dev_table($searchTerm, $model, $manufacturer, $status) { //Device Masterlist - search
+        $this->db->like('dev_name', $searchTerm);
+        $this->db->like('dev_model', $model);
+        $this->db->like('manufacturer', $manufacturer);
+        $this->db->like('cur_status', $status);
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('devices')->result();
+    }
+    public function total_dev() {
+        $this->db->where('registered', 1);
+        $this->db->from('devices');
+        return $this->db->count_all_results();
+    }
     public function get_dev_row($id)
     {
         return $this->db->get_where('devices', ['id' => $id])->row();
     }
 
-    public function get_dCount()
-    {
-        return $this->db->count_all('devices');
-    }
 
     // public function count_devModel() {
     //     $this->db->select('*');

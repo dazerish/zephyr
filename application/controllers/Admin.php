@@ -238,7 +238,7 @@ class Admin extends CI_Controller
             $manufacturer = $this->input->post('manufacturer');
             $status = $this->input->post('status');
 
-            $data['title'] = 'Calibr8 - Employee Masterlist';
+            $data['title'] = 'Calibr8 - Device Masterlist';
             $data['devices'] = $this->Admin_model->get_dev_table($searchTerm, $model, $manufacturer, $status);
             $data['total'] = $this->Admin_model->total_dev();
             $this->load->view('include/admin_header', $data);

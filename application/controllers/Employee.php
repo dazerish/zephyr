@@ -27,7 +27,7 @@ class Employee extends CI_Controller
 
         $page_config = array(
             'base_url' => site_url('Employee/index'),
-            'total_rows' => $this->Employee_model->count_devModel(),
+            'total_rows' => $this->Employee_model->borrowableDev_count(),
             'num_links' => 3,
             'per_page' => 5,
 
@@ -59,7 +59,7 @@ class Employee extends CI_Controller
 
         $data['title'] = 'Calibr8 - Borrowable Device Masterlist';
         $data['total'] = $this->Employee_model->borrowableDev_count();
-        $data['stocks'] = $this->Employee_model->get_devModel($page_config['per_page'], $page, NULL);
+        $data['stocks'] = $this->Employee_model->get_devModel($page_config['per_page'], $page);
         $this->load->view('include/employee_header', $data);
         $this->load->view('employee/employee_borrowDev_view');
         $this->load->view('include/footer');
@@ -68,47 +68,20 @@ class Employee extends CI_Controller
 
     public function search_BorrowableDev()
     { //Temporary Search Function
-        $search = ($this->input->post("searchTerm")) ? $this->input->post("searchTerm") : "NIL";
-        $search = ($this->uri->segment(3)) ? $this->uri->segment(3) : $search;
+        $search = $this->input->post('search');
 
-        $page_config = array(
-            'base_url' => site_url('Employee/search_BorrowableDev/$search'),
-            'total_rows' => $this->Employee_model->count_devModel($search),
-            'num_links' => 3,
-            'per_page' => 5,
-
-            'full_tag_open' => '<div class="d-flex justify-content-center"><ul class="pagination">',
-            'full_tag_close' => '</ul></div>',
-
-            'first_link' => FALSE,
-            'last_link' => FALSE,
-
-            'next_link' => '&rsaquo;',
-            'next_tag_open' => '<li class="page-item">',
-            'next_tag_close' => '</li>',
-
-            'prev_link' => '&lsaquo;',
-            'prev_tag_open' => '<li class="page-item">',
-            'prev_tag_close' => '</li>',
-
-            'cur_tag_open' => '<li class="page-item active"><span class="page-link">',
-            'cur_tag_close' => '</span></li>',
-
-            'num_tag_open' => '<li class="page-item">',
-            'num_tag_close' => '</li>',
-
-            'attributes' => ['class' => 'page-link']
-        );
-
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $this->pagination->initialize($page_config);
-
-        $data['title'] = 'Calibr8 - Borrowable Device List';
-        $data['stocks'] = $this->Employee_model->get_devModel($page_config['per_page'], $page, $search);
-        $data['total'] = $this->Employee_model->borrowableDev_count();
-        $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_borrowDev_view');
-        $this->load->view('include/footer');
+        if(isset($search)) {
+            $searchTerm = $this->input->post('searchTerm');
+            $model = $this->input->post('device-model');
+            $manufacturer = $this->input->post('manufacturer');
+            
+            $data['title'] = 'Calibr8 - Borrowable Device List';
+            $data['stocks'] = $this->Employee_model->get_deviceModel($searchTerm, $model, $manufacturer);
+            $data['total'] = $this->Employee_model->borrowableDev_count();
+            $this->load->view('include/employee_header', $data);
+            $this->load->view('employee/employee_search_borrowDev');
+            $this->load->view('include/footer');
+        }
     }
 
     public function reserveDev($dev_name)
@@ -229,7 +202,7 @@ class Employee extends CI_Controller
 
         $data['title'] = 'Calibr8 - Device Masterlist';
         $data['devices'] = $this->Employee_model->get_devices_table($page_config['per_page'], $page);
-        $data['total'] = $this->Employee_model->get_dCount();
+        $data['total'] = $this->Employee_model->total_dev();
         $this->load->view('include/employee_header', $data);
         $this->load->view('employee/employee_dev_masterlist');
         $this->load->view('include/footer');
@@ -237,47 +210,21 @@ class Employee extends CI_Controller
 
     public function searchDev()
     { //Temporary Search Function
-        $search = ($this->input->post("searchTerm")) ? $this->input->post("searchTerm") : "NIL";
-        $search = ($this->uri->segment(3)) ? $this->uri->segment(3) : $search;
+        $search = $this->input->post('search');
 
-        $page_config = array(
-            'base_url' => site_url('Employee/searchDev/$search'),
-            'total_rows' => $this->Employee_model->get_devices_count($search),
-            'num_links' => 3,
-            'per_page' => 5,
+        if(isset($search)) {
+            $searchTerm = $this->input->post('searchTerm');
+            $model = $this->input->post('device-model');
+            $manufacturer = $this->input->post('manufacturer');
+            $status = $this->input->post('status');
 
-            'full_tag_open' => '<div class="d-flex justify-content-center"><ul class="pagination">',
-            'full_tag_close' => '</ul></div>',
-
-            'first_link' => FALSE,
-            'last_link' => FALSE,
-
-            'next_link' => '&rsaquo;',
-            'next_tag_open' => '<li class="page-item">',
-            'next_tag_close' => '</li>',
-
-            'prev_link' => '&lsaquo;',
-            'prev_tag_open' => '<li class="page-item">',
-            'prev_tag_close' => '</li>',
-
-            'cur_tag_open' => '<li class="page-item active"><span class="page-link">',
-            'cur_tag_close' => '</span></li>',
-
-            'num_tag_open' => '<li class="page-item">',
-            'num_tag_close' => '</li>',
-
-            'attributes' => ['class' => 'page-link']
-        );
-
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $this->pagination->initialize($page_config);
-
-        $data['title'] = 'Calibr8 - View Device Masterlist';
-        $data['devices'] = $this->Employee_model->get_devices_table($page_config['per_page'], $page, $search);
-        $data['total'] = $this->Employee_model->get_dCount();
-        $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_dev_masterlist');
-        $this->load->view('include/footer');
+            $data['title'] = 'Calibr8 - Device Masterlist';
+            $data['devices'] = $this->Employee_model->get_dev_table($searchTerm, $model, $manufacturer, $status);
+            $data['total'] = $this->Employee_model->total_dev();
+            $this->load->view('include/employee_header', $data);
+            $this->load->view('employee/employee_searchDev');
+            $this->load->view('include/footer');
+        }
     }
 
     public function device_view($id)
@@ -287,17 +234,6 @@ class Employee extends CI_Controller
 
         $this->load->view('include/employee_header', $data);
         $this->load->view('employee/employee_device_view', $data);
-        $this->load->view('include/footer');
-    }
-
-
-    //Profile View
-    public function profile_view() {
-
-        $data['title'] = 'Calibr8 - My Profile';
-        $data['employee'] = $this->Employee_model->get_emp_row($this->session->userdata('id'));
-        $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_profile_view', $data);
         $this->load->view('include/footer');
     }
 
@@ -316,6 +252,17 @@ class Employee extends CI_Controller
         $data['title'] = 'Calibr8 - Equipment Packages';
         $this->load->view('include/employee_header', $data);
         $this->load->view('employee/employee_dev_template_view', $data);
+        $this->load->view('include/footer');
+    }
+
+
+    //Profile View
+    public function profile_view() {
+
+        $data['title'] = 'Calibr8 - My Profile';
+        $data['employee'] = $this->Employee_model->get_emp_row($this->session->userdata('id'));
+        $this->load->view('include/employee_header', $data);
+        $this->load->view('employee/employee_profile_view', $data);
         $this->load->view('include/footer');
     }
 
