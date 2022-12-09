@@ -51,7 +51,10 @@
         
         //Display Devices - Employee
         public function emp_display_dev() {
-            $query = $this->db->get_where('devices', ['allowed_roles' => 'Employee']);
+            // $query = $this->db->get_where('devices', ['allowed_roles' => 'Employee']);
+            // return $query->result_array();
+            $this->db->like('allowed_roles', 'Employee');
+            $query = $this->db->get('devices');
             return $query->result_array();
         }
 
@@ -161,14 +164,22 @@
 
         //Employee Borrowable Device List
         public function emp_borrowable_list() {
-            $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Employee']);
+            // $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Employee']);
+            // return $query->result_array();
+            $this->db->where(['cur_status' => 'Available']);
+            $this->db->like('allowed_roles', 'Employee');
+            $query = $this->db->get('devices');
             return $query->result_array();
         }
 
 
         //Executive Borrowable Device List
         public function exec_borrowable_list() {
-            $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Executive']);
+            // $query = $this->db->get_where('devices', ['cur_status' => 'Available', 'allowed_roles' => 'Executive']);
+            // return $query->result_array();
+            $this->db->where(['cur_status' => 'Available']);
+            $this->db->like('allowed_roles', 'Executive');
+            $query = $this->db->get('devices');
             return $query->result_array();
         }
 

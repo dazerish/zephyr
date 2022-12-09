@@ -49,9 +49,9 @@
             <input type="text" id="devicename" name="devicename"><br>
             <span class="text-danger"><?= form_error('devicename') ?></span>
 
-            <label for="model" class="register_label">Device Type</label><br> <!-- Device Model -->
+            <label for="model" class="register_label">Device Model</label><br> <!-- Device Model -->
             <select name="model" id="roles">
-              <option value="Server Rack">Server Rack</option>
+              <option value="Server">Server</option>
               <option value="Gateway">Gateway</option>
               <option value="VR Headset">VR Headset</option>
               <option value="Router">Router</option>
