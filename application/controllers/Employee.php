@@ -301,6 +301,24 @@ class Employee extends CI_Controller
         $this->load->view('include/footer');
     }
 
+    //FAQ View
+
+    public function faq_view() {
+        $data['title'] = 'Calibr8 - FAQs';
+        $this->load->view('include/employee_header', $data);
+        $this->load->view('employee/faq_view', $data);
+        $this->load->view('include/footer');
+    }
+
+    //Device Template View
+
+    public function dev_template_view() {
+        $data['title'] = 'Calibr8 - Equipment Packages';
+        $this->load->view('include/employee_header', $data);
+        $this->load->view('employee/employee_dev_template_view', $data);
+        $this->load->view('include/footer');
+    }
+
     public function reset_password()
     {
         $reset = $this->input->post('reset-btn');

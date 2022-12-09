@@ -1141,6 +1141,14 @@ td i {
     .device-pic {
       height: 80px;
     }
+
+    .faq-box {
+      width: 500px;
+    }
+
+    .faqs {
+      width: 400px;
+    }
     
 }
 
@@ -1224,3 +1232,50 @@ td i {
   transition: .4s;
 }
 
+
+/*FAQs*/
+
+.faq-box {
+  width: 950px;
+  margin: 100px auto;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 1px 2px 4px rgba(0,0,0,.3);
+}
+
+.faq-box .faq-h {
+  font-size: 24px;
+  background: #C63F18;
+  border-radius: 15px 15px 0px 0px;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  
+}
+
+.faqs {
+  padding: 0 20px 20px;
+}
+
+::-webkit-details-marker{
+  float: right;
+  margin-top: 3px;
+}
+
+details {
+  background: #F6F6F6;
+  padding: 10px;
+  border-radius: 7px;
+  margin-top: 20px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  transition: 0.2s;
+}
+
+details summary {
+  outline: none;
+}
+
+.text {
+  margin-top: 20px;
+}

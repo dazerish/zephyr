@@ -25,7 +25,13 @@
             <a class="nav-link active" aria-current="page" href="<?= site_url('Employee') ?>">Reservation</a>
             </li>
             <li class="nav-item">
+            <a class="nav-link" href="<?= site_url('Employee/dev_template_view') ?>">Equipment Packages</a>
+            </li>
+            <li class="nav-item">
             <a class="nav-link" href="<?= site_url('Employee/dev_masterlist_view') ?>">Device Masterlist</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="<?= site_url('Employee/faq_view') ?>">FAQs</a>
             </li>
         </ul>
 
