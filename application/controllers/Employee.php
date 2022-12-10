@@ -260,7 +260,7 @@ class Employee extends CI_Controller
     public function multiple_dev_view() {
         $data['title'] = 'Calibr8 - Multiple Borrow';
         $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_multiple_dev_view', $data);
+        $this->load->view('employee/employee_multiple_reserve_view', $data);
         $this->load->view('include/footer');
     }
 
@@ -275,16 +275,6 @@ class Employee extends CI_Controller
         $this->load->view('include/footer');
     }
 
-
-    //Profile View
-    public function profile_view() {
-
-        $data['title'] = 'Calibr8 - My Profile';
-        $data['employee'] = $this->Employee_model->get_emp_row($this->session->userdata('id'));
-        $this->load->view('include/employee_header', $data);
-        $this->load->view('employee/employee_profile_view', $data);
-        $this->load->view('include/footer');
-    }
 
     public function reset_password()
     {

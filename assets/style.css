@@ -1278,3 +1278,21 @@ details summary {
 .text {
   margin-top: 20px;
 }
+
+
+/*multiple borrow device*/
+
+.device-card {
+  border: 1px solid #C63F18;
+  border-radius: 15px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 500px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.37);
+}
+
+.device-view .device-card ul li{
+  list-style-type: none;
+  text-align: left;
+}
