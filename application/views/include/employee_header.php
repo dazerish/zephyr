@@ -31,6 +31,9 @@
             <a class="nav-link" href="<?= site_url('Employee/dev_masterlist_view') ?>">Device Masterlist</a>
             </li>
             <li class="nav-item">
+            <a class="nav-link" href="<?= site_url('Employee/multiple_dev_view') ?>">Multiple Borrow</a>
+            </li>
+            <li class="nav-item">
             <a class="nav-link" href="<?= site_url('Employee/faq_view') ?>">FAQs</a>
             </li>
         </ul>
