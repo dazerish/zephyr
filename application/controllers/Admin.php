@@ -1129,14 +1129,14 @@ class Admin extends CI_Controller
         ));
 
         //Validation if rfid is in database or not
-        // $this->form_validation->set_rules('rfidNum', 'RFID Number', 'required|callback_validate_rfid', array(
-        //     'required' => '%s is required.',
-        //     'is_unique' => 'This %s is already registered.'
-        // ));
+        $this->form_validation->set_rules('rfidNum', 'RFID Number', 'required|callback_validate_rfid', array(
+            'required' => '%s is required.',
+            'is_unique' => 'This %s is already registered.'
+        ));
 
-        // $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
-        //     'required' => 'Please tap your RFID card.',
-        // ));
+        $this->form_validation->set_rules('tap-rfid', 'Tap your RFID', 'required', array(
+            'required' => 'Please tap your RFID card.',
+        ));
 
         if ($this->upload->do_upload('device_image') == FALSE) {
             $this->form_validation->set_rules('device_image', 'Device Image', 'required');

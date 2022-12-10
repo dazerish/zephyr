@@ -846,7 +846,7 @@ td i {
   font-weight: 800;
 }
 
-
+/* 
 .form-step {
   display: none;
   transform-origin: top;
@@ -855,7 +855,7 @@ td i {
 
 .form-step-active {
   display: block;
-}
+} */
 
 /* 
 @keyframes animate {
@@ -1295,4 +1295,9 @@ details summary {
 .device-view .device-card ul li{
   list-style-type: none;
   text-align: left;
+}
+
+#rfid_num {
+  cursor: default;
+  background-color: #dcdcdc;
 }

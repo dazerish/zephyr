@@ -1,3 +1,8 @@
+<!-- <script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script> -->
+
 <section class="main_container">
 
   <div class="register_container">
@@ -5,11 +10,7 @@
 
     <div class="login_box">
       <p class="login_header">Device Registration</p>
-      <div class="progressbar">
-        <div class="progress" id="progress"></div>
-        <div class="progress-step progress-step-active" data-title="Device Details"></div>
-        <div class="progress-step" data-title="Device RFID"></div>
-      </div>
+      
       <!-- FORM HERE -->
       <?= form_open_multipart('Admin/device_registration'); ?>
 
@@ -19,20 +20,26 @@
               </div>
       <?php endif; ?>
 
-      <div class="form-step form-step-active">
-        <label for="rfidNum" class="register_label">RFID Number</label><br>
+      <div class="form-step">
+<!--         
+        <label for="tap-rfid" class="register_label">Tap your RFID</label><br> -->
+        <label for="rfidNum" class="register_label">RFID Number</label>
+
+        <i class="far fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Tap your RFID"></i>
+
+        <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        });
+        </script>
+
         <div id="devReg_rfid">
           
         </div>
         <span class="text-danger"><?= form_error('rfidNum') ?></span>
 
-        <label for="tap-rfid" class="register_label">Tap your RFID</label><br>
 
-        <img src="<?= base_url('./assets/pictures/rfid.png'); ?>" height="150px"  alt="rfid" class="rfid-img">
-
-        <div class="reg-div">
-            <a href="#" class="btn btn-next" id="btn-next">NEXT</a>
-        </div>
+        <!-- <img src="<?= base_url('./assets/pictures/rfid.png'); ?>" height="150px"  alt="rfid" class="rfid-img"> -->
 
         
 
@@ -105,7 +112,6 @@
 
 
           <div class="btns-group">
-          <a href="#" class="btn btn-prev" id="btn-prev">PREVIOUS</a>
           <input type="submit" class="btn-reg" id="btn-reg" name="reg-dev" value="REGISTER DEVICE">
         </div>
           
@@ -123,7 +129,7 @@
 
 </section>
 
-
+<!-- 
 <script>
   const prevBtns = document.querySelectorAll(".btn-prev");
   const nextBtns = document.querySelectorAll(".btn-next");
@@ -173,7 +179,7 @@
       ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
   }
 
-</script>
+</script> -->
 <script>
     //Ajax Function
     $(document).ready(function(){

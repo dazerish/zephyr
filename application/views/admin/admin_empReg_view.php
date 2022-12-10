@@ -5,11 +5,7 @@
         
         <div class="login_box">
             <p class="login_header">Employee Registration</p>
-            <div class="progressbar">
-                <div class="progress" id="progress"></div>
-                <div class="progress-step progress-step-active" data-title="Employee Details"></div>
-                <div class="progress-step" data-title="Employee RFID"></div>
-            </div>
+         
             <!-- FORM HERE -->
                 <?= form_open_multipart('Admin/employee_registration'); ?>
                     <?php if($this->session->has_userdata('success')): ?>
@@ -19,19 +15,21 @@
                     <?php endif; ?>
 
 
-            <div class="form-step form-step-active">
-                <label for="rfidNum" class="register_label">RFID Number</label><br>
+            <div class="form-step">
+                <label for="rfidNum" class="register_label">RFID Number</label>
+                <i class="far fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Tap your RFID"></i>
+
+        <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        });
+        </script>
                 <div id="empReg_rfid"></div>
                 <span class="text-danger"><?= form_error('rfidNum') ?></span>
 
-                <label for="tap-rfid" class="register_label">Tap your RFID</label><br>
                 <span class="text-danger"><?= form_error('tap-rfid') ?></span>
 
-                <img src="<?= base_url('./assets/pictures/rfid.png'); ?>" height="150px"  alt="rfid" class="rfid-img">
-
-                <div class="reg-div">
-                  <a href="#" class="btn btn-next" id="btn-next">NEXT</a>
-                </div>
+        
 
                 
             </div>
@@ -77,7 +75,6 @@
                     </div>
 
                     <div class="btns-group">
-                    <a href="#" class="btn btn-prev" id="btn-prev">PREVIOUS</a>
                     <input type="submit" class="btn-reg" id="btn-reg" name="reg-emp" value="REGISTER EMPLOYEE">
                     </div>
 
@@ -97,7 +94,7 @@
 </section>
 
 
-<script>
+<!-- <script>
   const prevBtns = document.querySelectorAll(".btn-prev");
   const nextBtns = document.querySelectorAll(".btn-next");
   const progress = document.getElementById("progress");
@@ -145,7 +142,7 @@
     progress.style.width =
       ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
   }
-</script>
+</script> -->
 <script>
     //Ajax Function
     $(document).ready(function(){

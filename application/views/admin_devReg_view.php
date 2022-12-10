@@ -21,7 +21,7 @@
       <div class="form-step form-step-active">
         <div class="row">
           <div class="col">
-            <label for="uniquenum" class="register_label">Device Unique Number</label><br>
+            <label for="uniquenum" class="register_label">Device Serial Number</label><br>
             <input type="text" id="uniquenum" name="uniquenum"><br>
             <span class="text-danger"><?= form_error('uniquenum') ?></span>
 
