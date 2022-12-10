@@ -24,30 +24,33 @@
         <div class="searchFilters">
             <!-- <label for="device-model">Device Model</label> -->
             <select name="device-model" id="device-model" class="filterGroup">
-                <option value="#">Device Model</option>
-                <option value="Laptop">Laptop</option>
+                <option value="">Device Model</option>
+                <option value="Server">Server</option>
                 <option value="Gateway">Gateway</option>
-                <option value="Smartphone">Smartphone</option>
+                <option value="VR Headset">VR Headset</option>
+                <option value="Router">Router</option>
+                <option value="Modem">Modem</option>
+                <option value="Switch">Switch</option>
+                <option value="Power Cable">Power Cable</option>
+                <option value="RJ45">RJ45</option>
+                <option value="HDMI Cable">HDMI Cable</option>
+                <option value="VGA Cable">VGA Cable</option>
+                <option value="Mouse">Mouse</option>
+                <option value="Keyboard">Keyboard</option>
+                <option value="Monitor">Monitor</option>
+                <option value="Laptop">Laptop</option>
             </select>
 
-            <!--            
-        <label for="manufacturer">Manufacturer</label> -->
+
             <select name="manufacturer" id="manufacturer" class="filterGroup">
-                <option value="#">Manufacturer</option>
-                <option value="Laptop">Apple</option>
-                <option value="Gateway">Dell</option>
-                <option value="Smartphone">Lenovo</option>
+                <option value="">Manufacturer</option>
+                <option value="Apple">Apple</option>
+                <option value="Dell">Dell</option>
+                <option value="Occulus">Oculus</option>
+                <option value="Lenovo">Lenovo</option>
+                <option value="Asus">Asus</option>
             </select>
 
-
-
-            <!-- <label for="status">Status</label> -->
-            <select name="status" id="status" class="filterGroup">
-                <option value="#">Status</option>
-                <option value="Available">Available</option>
-                <option value="Reserved">Reserved</option>
-                <option value="Removed">Removed</option>
-            </select>
 
             <a href="<?= site_url('Employee'); ?>"><u>Clear All</u></a>
         </div>
@@ -62,6 +65,8 @@
                 <tr class="device-details">
                     <th>Device Image</th>
                     <th>Device Name</th>
+                    <th>Device Model</th>
+                    <th>Device Manufacturer</th>
                     <th>Status</th>
                     <th>Stock</th>
                     <th></th>
@@ -82,6 +87,14 @@
                         </td>
                         <td data-label="Device Name">
                             <?= $stock->dev_name; ?>
+                        </td>
+
+                        <td data-label="Device Model">
+                            <?= $stock->dev_model; ?>
+                        </td>
+
+                        <td data-label="Device Model">
+                            <?= $stock->manufacturer; ?>
                         </td>
 
                         <td data-label="Status"> 

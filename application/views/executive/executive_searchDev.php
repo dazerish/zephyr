@@ -5,7 +5,7 @@
 
     <div class="searchContainer">
         <div class="search-box">
-        <?= form_open_multipart('Employee/searchDev');?>
+        <?= form_open_multipart('Executive/searchDev');?>
             <div class="search">
             <input type="text" class="searchTerm" name="searchTerm" placeholder="Search for a device...">
             <button type="submit" class="searchButton" name="search">
@@ -63,7 +63,7 @@
                 <option value="Decommissioned">Decommisioned</option>
             </select>
 
-                <a href="<?= site_url('Employee/dev_masterlist_view')?>" class="clear-filter"><u>Clear All</u></a>
+                <a href="<?= site_url('Executive/dev_masterlist_view')?>"><u>Clear All</u></a>
         </div>
 
         <?= form_close();?>
@@ -72,20 +72,20 @@
     <div class="table-container">
         <table class="table-responsive">
             <thead>
-                <tr class="user-details">
-                    <th scope="col">Device Image</th>
-                    <th scope="col">Device Name</th>
-                    <th scope="col">Device Model</th>
-                    <th scope="col">Manufacturer</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>             
+                <tr>
+                    <th>Device Image</th>
+                    <th>Device Name</th>
+                    <th>Device Model</th>
+                    <th>Manufacturer</th>
+                    <th>Status</th>
+                    <th>Actions</th>             
                 </tr>
             </thead>
 
             <!--placed a placeholder so it can easily be identified and replaced with php function-->
             <tbody>
                 <?php foreach($devices as $device): ?>
-                    <tr class="align-middle">
+                    <tr>
                         <td data-label="Device Image">
                             <img
                                 <?php if(isset($device->dev_image)): ?>
@@ -100,17 +100,20 @@
                         <td data-label="Manufacturer"><?=$device->manufacturer; ?></td>
                         <td data-label="Status"><?=$device->cur_status; ?></td>
             
-                        <td data-label="Actions">
-                            <a href="<?= site_url('Employee/device_view/') . $device->id; ?>"><i class="fa fa-solid fa-eye"></i></a>
+                        <td>
+                            <a href="<?= site_url('Executive/device_view/') . $device->id; ?>"><i class="fa fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>  
 
             </tbody>
         </table>
+
     </div>
-  
-    <div class="pagination-div">
-        <?= $this->pagination->create_links() ?>
-    </div>
+            
+
 </div>
+
+
+
+

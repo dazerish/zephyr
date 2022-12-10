@@ -3,7 +3,7 @@
 
     <h1 class="page-title"><b>Borrowable Device List</b></h1>
     <span class="device-count"><?= $total; ?> devices</span>
-    
+
     <?php if ($this->session->has_userdata('success')) : ?>
             <div class="alert alert-success">
                 <?= $this->session->userdata('success'); ?>
@@ -12,7 +12,7 @@
 
     <div class="searchContainer">
         <div class="search-box">
-            <?= form_open_multipart('Executive/search_BorrowableDev');?>
+            <?= form_open_multipart('Employee/search_BorrowableDev');?>
             <div class="search">
                 <input type="text" id="searchTerm" class="searchTerm" name="searchTerm" placeholder="Search for a device...">
                 <button type="submit" class="searchButton" name="search">
@@ -41,7 +41,7 @@
                 <option value="Laptop">Laptop</option>
             </select>
 
-            
+
             <select name="manufacturer" id="manufacturer" class="filterGroup">
                 <option value="">Manufacturer</option>
                 <option value="Apple">Apple</option>
@@ -52,7 +52,7 @@
             </select>
 
 
-            <a href="<?= site_url('Executive'); ?>"><u>Clear All</u></a>
+            <a href="<?= site_url('Employee'); ?>"><u>Clear All</u></a>
         </div>
 
         <?= form_close(); ?>
@@ -106,7 +106,7 @@
                         </td>
                         <td data-label="Action">
                             <div class="item-btn">
-                                <a href="<?= site_url('Executive/reserveDev/') . $stock->dev_name; ?>">
+                                <a href="<?= site_url('Employee/reserveDev/') . $stock->dev_name; ?>">
                                     <input type="submit" class="all_btn" id="reserve_btn" value="Borrow Device">
                                 </a>
                             </div>
@@ -117,8 +117,6 @@
         </table>
     </div>
 
-    <div class="pagination-div">
-        <?= $this->pagination->create_links(); ?>
-    </div>
-    
+
+
 </div>
